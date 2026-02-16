@@ -16,7 +16,7 @@ const register= async(req,res)=>{
         
         //if email alredy exixts yeh khud hi error fenk dega    
         const user= await User.create(req.body);
-        //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});
+        //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});fdss
         const token=jwt.sign({_id:user._id,emailId:emailId},process.env.JWT_KEY,{expiresIn: 60*60});
         res.cookie("token",token,{maxAge: 60*60*1000 });
         res.status(201).send("User Registered Successfully");
@@ -26,3 +26,4 @@ const register= async(req,res)=>{
         res.status(400).send("Error:"+err);// status code 400: bad request 
     }
 }
+
