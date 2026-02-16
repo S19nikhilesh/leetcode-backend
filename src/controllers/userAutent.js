@@ -16,7 +16,7 @@ const register= async(req,res)=>{
         
         //if email alredy exixts yeh khud hi error fenk dega    
         const user= await User.create(req.body);
-        //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});fdss
+        //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});
         const token=jwt.sign({_id:user._id,emailId:emailId},process.env.JWT_KEY,{expiresIn: 60*60});
         res.cookie("token",token,{maxAge: 60*60*1000 });
         res.status(201).send("User Registered Successfully");
@@ -24,6 +24,26 @@ const register= async(req,res)=>{
 
     }catch(err){
         res.status(400).send("Error:"+err);// status code 400: bad request 
+    }
+}
+
+const login=async(req,res)=>{
+    try{
+        const {emailId,password}=req.body;
+
+        if(!emailId)
+            throw new Error("Invalid Credentials");
+        if(!password)
+            throw new Error("Invalid Credentials");
+
+        const user=await User.findOne({emailId});
+
+        const match=bcrypt.compare(password,req.body)//gadbad hai re baba
+        
+        if(!match)
+            throw new Error("Invalid Credentials");
+    }catch{
+
     }
 }
 
