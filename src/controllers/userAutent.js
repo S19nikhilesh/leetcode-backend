@@ -1,0 +1,28 @@
+const User= require('../Models/users');
+const validate=require('../utils/validator')
+const bcrypt=require("bcrypt")
+const jwt=require("jsonwebtoken")
+
+
+const register= async(req,res)=>{
+    try{
+
+        //valdiate toh karway ahi nhi , pehle validator banao 
+        validate(req.body)
+
+        const {firstName,emailId,password}=req.body;
+        //bina hashing ke password store hota hai kya be? 
+        req.body.password=bcrypt.hash(password,10);
+        
+        //if email alredy exixts yeh khud hi error fenk dega    
+        const user= await User.create(req.body);
+        //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});
+        const token=jwt.sign({_id:user._id,emailId:emailId},process.env.JWT_KEY,{expiresIn: 60*60});
+        res.cookie("token",token,{maxAge: 60*60*1000 });
+        res.status(201).send("User Registered Successfully");
+        //new resource created status:201
+
+    }catch(err){
+        res.status(400).send("Error:"+err);// status code 400: bad request 
+    }
+}
