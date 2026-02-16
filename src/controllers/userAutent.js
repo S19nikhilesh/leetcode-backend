@@ -38,12 +38,17 @@ const login=async(req,res)=>{
 
         const user=await User.findOne({emailId});
 
-        const match=bcrypt.compare(password,req.body)//gadbad hai re baba
-        
+        const match=bcrypt.compare(password,user.password)
+
         if(!match)
             throw new Error("Invalid Credentials");
-    }catch{
 
+        const token=jwt.sign({_id:user._id,emailId:emailId},process.env.JWT_KEY,{expiresIn: 60*60});
+        res.cookie("token",token,{maxAge: 60*60*1000 });
+        res.status(200).send("User Registered Successfully"); //ok
+
+    }catch(err){
+        res.status(401).send("Error:"+err);// status code 401: unauthorized access:authentiaction required
     }
 }
 
