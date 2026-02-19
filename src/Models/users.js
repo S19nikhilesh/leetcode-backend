@@ -1,6 +1,6 @@
 const { Timestamp } = require('bson');
 const mongoose=require('mongoose');
-const {Schema}=mongoose();
+const {Schema}=mongoose;
 
 const userSchema=new Schema({
     firstName:{
@@ -39,7 +39,7 @@ const userSchema=new Schema({
         type:String,
         required:true
     }
-},{Timestamp:true})
+},{Timestamps:true})
 
 const User=mongoose.model("user",userSchema);
 module.exports=User;

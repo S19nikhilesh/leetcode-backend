@@ -12,7 +12,7 @@ const register= async(req,res)=>{
 
         const {firstName,emailId,password}=req.body;
         //bina hashing ke password store hota hai kya be? 
-        req.body.password=bcrypt.hash(password,10);
+        req.body.password=await bcrypt.hash(password,10);
         
         //if email alredy exixts yeh khud hi error fenk dega    
         const user= await User.create(req.body);
@@ -38,17 +38,19 @@ const login=async(req,res)=>{
 
         const user=await User.findOne({emailId});
 
-        const match=bcrypt.compare(password,user.password)
+        const match=await bcrypt.compare(password,user.password)
 
         if(!match)
             throw new Error("Invalid Credentials");
 
         const token=jwt.sign({_id:user._id,emailId:emailId},process.env.JWT_KEY,{expiresIn: 60*60});
         res.cookie("token",token,{maxAge: 60*60*1000 });
-        res.status(200).send("User Registered Successfully"); //ok
+        res.status(200).send("User Login Successfully"); //ok
 
     }catch(err){
         res.status(401).send("Error:"+err);// status code 401: unauthorized access:authentiaction required
     }
 }
+
+module.exports={register,login}
 

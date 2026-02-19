@@ -2,9 +2,13 @@ const express= require('express');
 const app=express();
 require('dotenv').config();
 const main=require('./config/db');
+const authRouter=require("./routes/userAuth")
+const cookieParser = require('cookie-parser');
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/user',authRouter);
 
 main()
 .then(async()=>{
