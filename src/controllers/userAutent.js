@@ -52,5 +52,15 @@ const login=async(req,res)=>{
     }
 }
 
-module.exports={register,login}
+const logout=async(req,res)=>{
+    try{
+        //validate the token
+        //add it to redis ka bloaklist
+        //clear the coookies
+    }catch(err){
+        res.send("Error:",err);
+    }
+}
+
+module.exports={register,login,logout}
 
