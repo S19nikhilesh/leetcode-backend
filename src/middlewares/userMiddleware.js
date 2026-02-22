@@ -1,15 +1,17 @@
 const jwt=require("jsonwebtoken");
 const User = require("../Models/users");
+const redisClient = require("../config/redis");
 const userMiddleware=async (req,res,next) => {
     try{
         const {token}=req.cookies;
-        if(!token){
-            throw new Error("Token is not present");
+        if(!token)
+        throw new Error("Token is not present");
+    //user ko dhundho
             const payload=jwt.verify(token,process.env.JWT_KEY);
 
             const {_id}=payload;
 
-            if(!id)
+            if(!_id)
                 throw new Error("Invalid Token, ID is missing");
 
             const result=await User.findById(_id);
@@ -17,8 +19,20 @@ const userMiddleware=async (req,res,next) => {
                 throw new Error("User doesn't Exists");
 
             //check redis blocklist
-        }
+        
+            const isBlocked=await redisClient.exists(`token:${token}`)
+
+            if(isBlocked)
+                throw new Error ("Invalid Token")
+
+            req.result=result;
+        
+            next();
+
+            
     }catch(err){
         res.send("Error:"+err.message);
     }
 }
+
+module.exports=userMiddleware;

@@ -14,7 +14,7 @@ app.use('/user',authRouter);
 const InitializeConnection=async () => {
     try{
 
-        await Promise.all([main(),redisClient.connect()])
+        await Promise.all([main(),redisClient.connect()])//parallely coonect krwa diya
         console.log("Connected to both DB");
 
         app.listen(process.env.PORT,()=>{

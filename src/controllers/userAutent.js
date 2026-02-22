@@ -2,7 +2,7 @@ const User= require('../Models/users');
 const validate=require('../utils/validator')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
-
+const redisClient=require('../config/redis');
 
 const register= async(req,res)=>{
     try{
@@ -54,8 +54,16 @@ const login=async(req,res)=>{
 
 const logout=async(req,res)=>{
     try{
-        //validate the token
+        //validate the token -middleware se hogya
+
+
         //add it to redis ka bloaklist
+        const {token}=req.cookies;
+        const paylaod=jwt.decode(token);
+
+        await redisClient.set(`token:${token}`,"Blocked");
+        await redisClient.expireAt(`token:${token}`,paylaod.exp);
+        
         //clear the coookies
     }catch(err){
         res.send("Error:",err);
