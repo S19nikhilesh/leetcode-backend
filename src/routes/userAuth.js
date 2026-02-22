@@ -1,12 +1,13 @@
 const express=require('express');
 const authRouter=express.Router();
-const {register,login,logout}=require("../controllers/userAutent")
+const {register,login,logout,adminRegister}=require("../controllers/userAutent")
 const userMiddleware=require('../middlewares/userMiddleware')
+const adminMiddleware=require('../middlewares/adminMiddleware')
 
 authRouter.post('/register',register);
 authRouter.post('/login',login);
 authRouter.post('/logout',userMiddleware,logout);
-// authRouter.post('/admin/register',adminRegister)
+authRouter.post('/admin/register',adminMiddleware,adminRegister)
 // authRouter.get('/getprofile',getprofile);
 
 module.exports= authRouter;
