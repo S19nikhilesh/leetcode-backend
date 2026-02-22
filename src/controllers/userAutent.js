@@ -66,9 +66,10 @@ const logout=async(req,res)=>{
         //added  it to redis ka bloacklist
 
         //clear the coookies
-        res.cookie("token",null,new Date(Date.now())); // lhali token bheja , aur abhi hi expire karde isko 
+        res.cookie("token",null,new Date(Date.now())); // khali token bheja , aur abhi hi expire karde isko 
+        res.send("Logged out Successfully");
     }catch(err){
-        res.send("Error:",err);
+        res.status(401).send("Error:",err);
     }
 }
 
