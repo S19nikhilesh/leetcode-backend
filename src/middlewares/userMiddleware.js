@@ -1,6 +1,8 @@
 const jwt=require("jsonwebtoken");
 const User = require("../Models/users");
 const redisClient = require("../config/redis");
+
+
 const userMiddleware=async (req,res,next) => {
     try{
         const {token}=req.cookies;
@@ -29,7 +31,7 @@ const userMiddleware=async (req,res,next) => {
         
             next();
 
-            
+
     }catch(err){
         res.send("Error:"+err.message);
     }
