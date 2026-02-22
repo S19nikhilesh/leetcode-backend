@@ -63,8 +63,10 @@ const logout=async(req,res)=>{
 
         await redisClient.set(`token:${token}`,"Blocked");
         await redisClient.expireAt(`token:${token}`,paylaod.exp);
-        
+        //added  it to redis ka bloacklist
+
         //clear the coookies
+        res.cookie("token",null,new Date(Date.now())); // lhali token bheja , aur abhi hi expire karde isko 
     }catch(err){
         res.send("Error:",err);
     }
