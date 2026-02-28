@@ -94,7 +94,21 @@ const updateProblem=async(req,res)=>{
         res.status(404).send( "Error:" +err);
     }
 }
+const deleteProblem=async(req,res)=>{
+    const {id}=req.params;
+    try{
+        if(!id){
+            res.status(400).send("Missing Id Field");
+            const deletedProblem=Problem.findByIdAndDelete(id);
 
+            if(!deletedProblem)
+                return res.status(404).send("Problem not found")
+            res.status(200).send("Problem Deleted");
+        }
+    }catch(err){
+        res.status(500).send("Error:"+err)
+    }
+}
 
 
 module.exports={createProblem,updateProblem,deleteProblem};
