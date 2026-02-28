@@ -124,7 +124,18 @@ const getProblemById=async(req,res)=>{
         res.status(500).send("Error:"+err)
     }
 }
-
+const getAllProblem=async(req,res)=>{
+    try{
+       
+        const getProblem=await Problem.find({});
+        if(getProblem.length==0){
+            return res.status(404).send("no problems exists")
+        }
+        res.status(200).send(getProblem);
+    }catch(err){
+        res.status(500).send("Error:"+err)
+    }
+}
 module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem};
 
 // curl -X POST "https://api.jdoodle.com/v1/auth-token" \
