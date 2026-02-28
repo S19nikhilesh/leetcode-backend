@@ -3,7 +3,7 @@ const problemRouter=express.Router();
 const adminMiddleware=require("../middlewares/adminMiddleware")
 const userMiddleware=require("../middlewares/userMiddleware")
 
-const {createProblem,updateProblem,deleteProblem,getProblemById}=require("../controllers/userProblem")
+const {createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem}=require("../controllers/userProblem")
 
 //admin access required for these 3 only
 problemRouter.post("/create",adminMiddleware,createProblem);
