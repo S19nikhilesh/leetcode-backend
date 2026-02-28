@@ -45,7 +45,11 @@ const getDriverTemplate=(lang,USER_CODE)=>{
 
           return 0;
       }
-      `
+      `,
+    "python":`
+        t = int(input())
+      for _ in range(t):
+        ${USER_CODE}`
 
   }
   if (!driverTemplate[lang.toLowerCase()]) {
