@@ -1,40 +1,17 @@
 const express=require('express');
 const problemRouter=express.Router();
+const adminMiddleware=require("../middlewares/adminMiddleware")
+const createProblem=require("../controllers/userProblem")
 
 //admin access required for these 3
-problemRouter.post("/create",problemCreate);
-problemRouter.patch("/:id",problemUpdate);
-problemRouter.delete("/:id",probleemDelete);
+problemRouter.post("/create",adminMiddleware,createProblem);
+// problemRouter.patch("/:id",updateProblem);
+// problemRouter.delete("/:id",deleteProblem);
 
-//user access
-problemRouter.get("/:id",problemFetch);
-problemRouter.get("/",problemFetchAll);
+// //user access
+// problemRouter.get("/:id",getProblemById);
+// problemRouter.get("/",getAllProblem);
 
-problemRouter.get("/user",solvedProblem)
+// problemRouter.get("/user",solvedProblemsByUser)
 
-const express=require('express');
-const problemRouter=express.Router();
-
-//admin access required for these 3
-problemRouter.post("/create",problemCreate);
-problemRouter.patch("/:id",problemUpdate);
-problemRouter.delete("/:id",probleemDelete);
-
-//user access
-problemRouter.get("/:id",problemFetch);
-problemRouter.get("/",problemFetchAll);
-
-problemRouter.get("/user",solvedProblem)
-const express=require('express');
-const problemRouter=express.Router();
-
-//admin access required for these 3
-problemRouter.post("/create",problemCreate);
-problemRouter.patch("/:id",problemUpdate);
-problemRouter.delete("/:id",probleemDelete);
-
-//user access
-problemRouter.get("/:id",problemFetch);
-problemRouter.get("/",problemFetchAll);
-
-problemRouter.get("/user",solvedProblem)
+module.exports=problemRouter;

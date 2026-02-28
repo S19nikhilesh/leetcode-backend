@@ -50,11 +50,23 @@ const problemSchema= new Schema({
     ],
     startCode:[
         {
-            langauge:{
+            language:{
                 type:String,
                 required:true
             },
             initialCode:{
+                type:String,
+                required:true
+            }
+        }
+    ],
+    referenceSolution:[
+        {
+            language:{
+                type:String,
+                required:true
+            },
+            completeCode:{
                 type:String,
                 required:true
             }
@@ -68,4 +80,4 @@ const problemSchema= new Schema({
 })
 
 const Problem=mongoose.model('problem',problemSchema);
-mdoule.exports=Problem;
+module.exports=Problem;
