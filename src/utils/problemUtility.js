@@ -15,7 +15,45 @@ const getLanguageName = (lang) => {
     return languageMap[lang.toLowerCase()];
 };
 
+const getDriverTemplate=(lang,USER_CODE)=>{
+  const driverTemplate={
+    "c++": `
+      #include <iostream>
+      using namespace std;
 
+      int main() {
+          int t;
+          cin >> t;
+
+          while(t--) {
+            ${USER_CODE}
+          }
+
+          return 0;
+      }
+      `,
+    "c": `
+      #include <stdio.h>
+
+      int main() {
+          int t;
+          scanf("%d", &t);
+
+          while(t--) {
+              ${USER_CODE}
+          }
+
+          return 0;
+      }
+      `
+
+  }
+  if (!driverTemplate[lang.toLowerCase()]) {
+    throw new Error("Driver template not found for language");
+  }
+  return driverTemplate[lang.toLowerCase()];
+  
+};
 
 
 const executeCode = async (combinedInput, language, code) => {
