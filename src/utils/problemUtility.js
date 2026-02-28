@@ -1,4 +1,5 @@
 const axios = require("axios");
+require('dotenv').config();
 
 const getLanguageName = (lang) => {
 
@@ -65,10 +66,10 @@ const executeCode = async (combinedInput, language, code) => {
   const response = await axios.post(
     "https://api.jdoodle.com/v1/execute",
     {
-      // clientId: process.env.JDOODLE_CLIENT_ID,
-      // clientSecret: process.env.JDOODLE_CLIENT_SECRET,
-      clientId: "ddb0ab0e35c3db904124de75369028af",
-      clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
+      clientId: process.env.JDOODLE_CLIENT_ID,
+      clientSecret: process.env.JDOODLE_CLIENT_SECRET,
+      // clientId: "ddb0ab0e35c3db904124de75369028af",
+      // clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
       script: getDriverTemplate(language,code),  
       stdin: combinedInput,
       language: getLanguageName(language),
