@@ -63,7 +63,7 @@ const updateProblem=async(req,res)=>{
         visibleTestCases.map(tc => tc.input).join("\n");
 
         for (const{language,completeCode} of referenceSolution){
-        
+            console.log("kuch toh hora update")
             console.log(language)
             const submitResult=await submitBatch(combinedInput,language,completeCode);
             
@@ -89,9 +89,9 @@ const updateProblem=async(req,res)=>{
 
         const newProblem= await Problem.findByIdAndUpdate(id,{...req.body},{runValidators:true ,new :true})
 
-        res.status(200).send(newProblem)
+       res.status(200).send(newProblem)
     }catch(err){
-        res.status(404).send( "Error:" +err);
+      res.status(404).send( "Error:" +err);
     }
 }
 const deleteProblem=async(req,res)=>{

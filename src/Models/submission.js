@@ -37,9 +37,19 @@ const submissionSchema=new Schema({
     errorMessage:{
         type:String,
         default:''
+    },
+    testCasesPassed:{
+        type:Number,
+        default:0
+    },
+    testCasesTotal:{
+        type:Number,
+        default:0
     }
-})
+},{
+    timestamps:true
+});
 
-const Submissions=mongoose.model('Submissions',submissionSchema);
-module.exports=Submissions;
+const Submission=mongoose.model('Submission',submissionSchema);
+module.exports=Submission;
 
