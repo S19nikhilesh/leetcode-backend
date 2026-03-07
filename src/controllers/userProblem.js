@@ -127,7 +127,11 @@ const getProblemById=async(req,res)=>{
 const getAllProblem=async(req,res)=>{
     try{
        
-        const getProblem=await Problem.find({});
+        const getProblem=await Problem.find({});// but yeh toh saar problems le aayega ek sath  VIDEO 6:BACKEND
+        //this will ruin user experience
+
+        // ?/getAllProblem?page=3&limit=10
+        //await Problem.find().skip(no of docs to skip).limit(fixed 10)
         if(getProblem.length==0){
             return res.status(404).send("no problems exists")
         }
@@ -158,3 +162,12 @@ module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllP
 //     "cpuTime": "0.01",
 //     "compilationStatus": 0
 //   }
+
+//USER ID 
+//CODE 
+//LANGUAGE
+//TIME
+//MEMEORY
+//STATUS :ACCEPTED
+//TEST CASES 
+//TIMESTAMP
