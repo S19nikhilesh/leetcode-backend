@@ -1,5 +1,5 @@
 const Problem=require("../Models/problem");
-const submitBatch=require("../utils/problemUtility");
+const {executeCode,checkOutput}=require("../utils/problemUtility");
 
 const createProblem=async(req,res)=>{
     const {title,description,difficulty,tags,visibleTestCases,hiddenTestCases,startCode,referenceSolution,problemCreator}=req.body;
@@ -9,29 +9,23 @@ const createProblem=async(req,res)=>{
         visibleTestCases.length + "\n" +
         visibleTestCases.map(tc => tc.input).join("\n");
 
+        
+        console.log(combinedInput)
         for (const{language,completeCode} of referenceSolution){
         
             console.log(language)
-            const submitResult=await submitBatch(combinedInput,language,completeCode);
-            
-
-
+            const submitResult=await executeCode(combinedInput,language,completeCode);
             if (submitResult.statusCode !== 200) {
                 return res.status(400).send("Reference solution failed to execute");
             }
 
-            const actualOutputs = submitResult.output.trim().split("\n");
-
-            for (let i = 0; i < visibleTestCases.length; i++) {
-                const expected = visibleTestCases[i].output.trim();
-                const actual = (actualOutputs[i] || "").trim();
-        
-                if (expected !== actual) {
-                   return res.status(400).send("Reference solution does not match expected outputs");
-                }
+            const numberOfTestCasesPassed=checkOutput(submitResult,visibleTestCases);
+            if (numberOfTestCasesPassed !== visibleTestCases.length) {
+                return res.status(400).send(`Reference solution does not match expected outputs ,failed at test case ${numberOfTestCasesPassed} of ${visibleTestCases.length}`);
             }
 
-            
+            res.status(200).send("newProblem saved successfully")
+           
         }
         // If reference solution is correct → Save problem
         const userProblem= await Problem.create(
@@ -66,9 +60,6 @@ const updateProblem=async(req,res)=>{
             console.log("kuch toh hora update")
             console.log(language)
             const submitResult=await submitBatch(combinedInput,language,completeCode);
-            
-
-
             if (submitResult.statusCode !== 200) {
                 return res.status(400).send("Reference solution failed to execute");
             }
@@ -111,11 +102,12 @@ const deleteProblem=async(req,res)=>{
 }
 const getProblemById=async(req,res)=>{
     const {id}=req.params;
-    try{
+    try{ 
         if(!id){
             res.status(404).send("Id is Missing");
         }
-        const getProblem=await Problem.findById(id);
+        //const getProblem=await Problem.findById(id);//par yeh toh sara data bhej rhahai hiddentestcase bhi 
+        const getProblem=await Problem.findById(id).select(' _id title description difficulty tags visibleTestCases startCode');
         if(!getProblem){
             return res.status(404).send("Problem not found")
         }
@@ -127,7 +119,7 @@ const getProblemById=async(req,res)=>{
 const getAllProblem=async(req,res)=>{
     try{
        
-        const getProblem=await Problem.find({});// but yeh toh saar problems le aayega ek sath  VIDEO 6:BACKEND
+        const getProblem=await Problem.find({}).select('_id title difficulty tags');// but yeh toh saar problems le aayega ek sath  VIDEO 6:BACKEND
         //this will ruin user experience
 
         // ?/getAllProblem?page=3&limit=10

@@ -78,9 +78,26 @@ const executeCode = async (combinedInput, language, code) => {
     
   );
  console.log(getLanguageName(language))
+ console.log(response.data);
   return response.data;
 };
 
-module.exports = executeCode ;
 
 
+
+module.exports = {executeCode,checkOutput} ;
+
+
+//output look like
+
+// {
+//   output: '5\n25',
+//   error: null,
+//   statusCode: 200,
+//   memory: '3072',
+//   cpuTime: '0.00',
+//   compilationStatus: null,
+//   projectKey: null,
+//   isExecutionSuccess: true,
+//   isCompiled: true
+// }
