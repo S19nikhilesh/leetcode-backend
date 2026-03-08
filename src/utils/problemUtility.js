@@ -82,7 +82,24 @@ const executeCode = async (combinedInput, language, code) => {
   return response.data;
 };
 
+const checkOutput=async(submitResult,visibleTestCases)=>{
 
+  
+const actualOutputs = submitResult.output.trim().split("\n"); 
+let i = 0;
+
+for ( i = 0; i < visibleTestCases.length; i++) {
+  const expected = visibleTestCases[i].output.trim();
+  const actual = (actualOutputs[i] || "").trim();
+
+  if (expected !== actual) {
+    break;
+  }
+
+}
+return i+1;
+ 
+};
 
 
 module.exports = {executeCode,checkOutput} ;
