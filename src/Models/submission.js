@@ -4,12 +4,12 @@ const Schema= mongoose.Schema;
 const submissionSchema=new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref:'User',
+        ref:'user',
         required:true
     },
     problemId:{
         type: Schema.Types.ObjectId,
-        ref:'User',
+        ref:'problem',
         required:true
     },
     code:{
@@ -19,7 +19,7 @@ const submissionSchema=new Schema({
     language:{
         type:String,
         required:true,
-        enum:['cpp','c','python']
+        enum:['c++','c','python']
     },
     status:{
         type:String,

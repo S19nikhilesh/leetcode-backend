@@ -4,3 +4,5 @@ const submitCode=require("../controllers/userSubmission")
 
 const userMiddleware=require('../middlewares/userMiddleware')
 submitRouter.post('/submit/:id',userMiddleware,submitCode);
+
+module.exports=submitRouter

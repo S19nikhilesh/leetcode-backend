@@ -18,13 +18,13 @@ const createProblem=async(req,res)=>{
             if (submitResult.statusCode !== 200) {
                 return res.status(400).send("Reference solution failed to execute");
             }
-
-            const numberOfTestCasesPassed=checkOutput(submitResult,visibleTestCases);
+   
+            const numberOfTestCasesPassed= checkOutput(submitResult,visibleTestCases);
             if (numberOfTestCasesPassed !== visibleTestCases.length) {
                 return res.status(400).send(`Reference solution does not match expected outputs ,failed at test case ${numberOfTestCasesPassed} of ${visibleTestCases.length}`);
             }
 
-            res.status(200).send("newProblem saved successfully")
+           
            
         }
         // If reference solution is correct → Save problem

@@ -33,13 +33,17 @@ const userSchema=new Schema({
         default:'user'
     },
     ProblemSolved:{
-        type:[String]
+        type:[{type:Schema.Types.ObjectId,
+        ref:'problem'}],
+        unique:true
     },
     password:{
         type:String,
         required:true
     }
-},{Timestamps:true})
+},{
+    timestamps:true
+})
 
 const User=mongoose.model("user",userSchema);
 module.exports=User;

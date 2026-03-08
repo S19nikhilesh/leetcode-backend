@@ -28,6 +28,7 @@ const getDriverTemplate=(lang,USER_CODE)=>{
 
           while(t--) {
             ${USER_CODE}
+            cout << endl;
           }
 
           return 0;
@@ -82,7 +83,7 @@ const executeCode = async (combinedInput, language, code) => {
   return response.data;
 };
 
-const checkOutput=async(submitResult,visibleTestCases)=>{
+const checkOutput=(submitResult,visibleTestCases)=>{
 
   
 const actualOutputs = submitResult.output.trim().split("\n"); 
@@ -97,7 +98,7 @@ for ( i = 0; i < visibleTestCases.length; i++) {
   }
 
 }
-return i+1;
+return i;
  
 };
 

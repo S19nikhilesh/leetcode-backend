@@ -1,13 +1,13 @@
 const Submission = require('../Models/submission');
-const Problem=require('../Models/submission');
+const Problem=require('../Models/problem');
 const {executeCode,checkOutput}=require("../utils/problemUtility");
 
 
 const submitCode=async (req,res) => {
     try{
         const userId=req.result._id;
-        const problemId=request.params.id;
-
+        const problemId=req.params.id;
+        console.log(problemId)
         const{code,language}=req.body;
 
         if(!userId||!problemId||!code||!language)
@@ -15,7 +15,8 @@ const submitCode=async (req,res) => {
         
         //fetch problem from database 
         const problem= await Problem.findById(problemId);
-
+        
+        console.log(problem.title)
         // pehle sirf code ,language store karwa dete hai , pending status mai , aur baad mai fir update krwa denge
         // bcz maan lo koi error aagya kabhi Jdoodle mai , so that's why 
 
@@ -77,10 +78,14 @@ const submitCode=async (req,res) => {
 
         await submittedResult.save();
         
+        if(!req.result.problemSolved.includes(problemId)){
+            req.result.problemSolved.push(problemId);
+            await req.result.save();
+        }
 
 
         console.log(numberOfTestCasesPassed);
-
+        res.status(200).send("Given solution added to submission database")
 
     }catch(err){
         res.status(500).send( "Internal Server error" +err);
