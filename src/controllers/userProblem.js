@@ -132,10 +132,18 @@ const getAllProblem=async(req,res)=>{
         res.status(500).send("Error:"+err)
     }
 }
-module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem};
+const getSolvedProblemsByUser=async (req,res) => {
+    try{
+        const count=req.result.ProblemSolved.length;
+        const allProblemsId=req.result.ProblemSolved
+        res.status(200).send(allProblemsId)
+    }catch(err){
+        res.status(500).send("Server Error");
+    }
+}
+module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem,getSolvedProblemsByUser};
 
-// curl -X POST "https://api.jdoodle.com/v1/auth-token" \
-// -H "Content-Type: application/json" \
+
 // -d '{
 //   "clientId": "your_client_id_here",
 //   "clientSecret": "your_client_secret_here",
@@ -155,11 +163,3 @@ module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllP
 //     "compilationStatus": 0
 //   }
 
-//USER ID 
-//CODE 
-//LANGUAGE
-//TIME
-//MEMEORY
-//STATUS :ACCEPTED
-//TEST CASES 
-//TIMESTAMP

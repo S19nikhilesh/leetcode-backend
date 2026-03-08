@@ -78,8 +78,8 @@ const submitCode=async (req,res) => {
 
         await submittedResult.save();
         
-        if(!req.result.problemSolved.includes(problemId)){
-            req.result.problemSolved.push(problemId);
+        if(!req.result.ProblemSolved.includes(problemId)){
+            req.result.ProblemSolved.push(problemId);
             await req.result.save();
         }
 
