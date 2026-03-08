@@ -1,5 +1,7 @@
 const Problem=require("../Models/problem");
 const {executeCode,checkOutput}=require("../utils/problemUtility");
+const User=require("../Models/users")
+
 
 const createProblem=async(req,res)=>{
     const {title,description,difficulty,tags,visibleTestCases,hiddenTestCases,startCode,referenceSolution,problemCreator}=req.body;
@@ -134,9 +136,15 @@ const getAllProblem=async(req,res)=>{
 }
 const getSolvedProblemsByUser=async (req,res) => {
     try{
-        const count=req.result.ProblemSolved.length;
-        const allProblemsId=req.result.ProblemSolved
-        res.status(200).send(allProblemsId)
+        const userId=req.result._id;
+        // const user=await User.findById(userId).populate("ProblemSolved") // problem solved jisko refere kr rha uski info fetch krke laa
+        const user=await User.findById(userId).populate({
+            path:"ProblemSolved",
+            select:"_id title difficulty tags"
+        })
+        // const count=req.result.ProblemSolved.length;
+        // const allProblemsId=req.result.ProblemSolved
+        res.status(200).send(user.ProblemSolved)
     }catch(err){
         res.status(500).send("Server Error");
     }
