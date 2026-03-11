@@ -1,6 +1,8 @@
 const Problem=require("../Models/problem");
 const {executeCode,checkOutput}=require("../utils/problemUtility");
-const User=require("../Models/users")
+const User=require("../Models/users");
+const Submission = require("../Models/submission");
+const adminMiddleware = require("../middlewares/adminMiddleware");
 
 
 const createProblem=async(req,res)=>{
@@ -149,7 +151,22 @@ const getSolvedProblemsByUser=async (req,res) => {
         res.status(500).send("Server Error");
     }
 }
-module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem,getSolvedProblemsByUser};
+const getSubmittedProblems=async (req,res) => {
+    try{
+        const userId=req.result._id;
+        const problemId=req.params.pid;
+
+        const ans=await Submission.find({userId,problemId});
+
+        if(ans.length==0)
+            res.status(200).send("No Submission is present")
+
+        res.status(200).send(ans);
+    }catch(err){
+        res.status(500).send("Internal Server Error")
+    }
+}
+module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem,getSolvedProblemsByUser,getSubmittedProblems};
 
 
 // -d '{

@@ -1,4 +1,5 @@
 const User= require('../Models/users');
+const Submission=require('../Models/submission')
 const validate=require('../utils/validator')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
@@ -19,7 +20,17 @@ const register= async(req,res)=>{
         //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});
         const token=jwt.sign({_id:user._id,emailId:emailId,role:'user'},process.env.JWT_KEY,{expiresIn: 60*60});
         res.cookie("token",token,{maxAge: 60*60*1000 });
-        res.status(201).send("User Registered Successfully");
+        // res.status(201).send("User Registered Successfully");
+            //par kya faida sirf user login succesfully bhejne ka , hum ek extra call bcha skte hai as user login ,send user data
+            const reply={
+                firstName:user.firstName,
+                emailId:user.emailId,
+                _id:user._id
+            }
+            res.status(201).json({
+                user:reply,
+                message:"Registered Successfully"
+            })
         //new resource created status:201
 
     }catch(err){
@@ -45,7 +56,17 @@ const login=async(req,res)=>{
 
         const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
         res.cookie("token",token,{maxAge: 60*60*1000 });
-        res.status(200).send("User Login Successfully"); //ok
+        //res.status(200).send("User Login Successfully"); //ok 
+        //par kya faida sirf user login succesfully bhejne ka , hum ek extra call bcha skte hai as user login ,send user data
+        const reply={
+            firstName:user.firstName,
+            emailId:user.emailId,
+            _id:user._id
+        }
+        res.status(200).json({
+            user:reply,
+            message:"Login Successfully"
+        })
 
     }catch(err){
         res.status(401).send("Error:"+err);// status code 401: unauthorized access:authentiaction required
@@ -95,5 +116,22 @@ const adminRegister=async(req,res)=>{
         res.status(400).send("Error:"+err);// status code 400: bad request 
     }
 }
-module.exports={register,login,logout,adminRegister}
+
+const deleteProfile=async(req,res)=>{
+try{
+    const userId=req.result._id;
+
+    await User.findByIdAndDelete(userId);
+    await Submission.deleteMany(userId);
+
+    res.status(200).send("Profile Deleted Successfully")
+
+
+}catch(err){
+    res.send(500).send("failed to detete user :"+err)
+}
+}
+
+
+module.exports={register,login,logout,adminRegister,deleteProfile}
 

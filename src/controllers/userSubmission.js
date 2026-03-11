@@ -92,4 +92,36 @@ const submitCode=async (req,res) => {
     }
 }
 
-module.exports=submitCode;
+const runCode=async (req,res) => {
+    try{
+        const userId=req.result._id;
+        const problemId=req.params.id;
+        console.log(problemId)
+        const{code,language}=req.body;
+
+        if(!userId||!problemId||!code||!language)
+            return res.status(400).send("some fields are missing")
+        
+        //fetch problem from database 
+        const problem= await Problem.findById(problemId);
+        
+        console.log(problem.title)
+        
+
+        const combinedInput =
+        problem.visibleTestCases.length + "\n" +
+        problem.visibleTestCases.map(tc => tc.input).join("\n");
+
+
+        const submitResult=await executeCode(combinedInput,language,code);
+        const numberOfTestCasesPassed = checkOutput(submitResult, problem.visibleTestCases);
+        
+        
+        res.status(200).send(`Passed ${numberOfTestCasesPassed} / ${problem.visibleTestCases.length} testcases`)
+
+    }catch(err){
+        res.status(500).send( "Internal Server error" +err);
+    }
+}
+
+module.exports={submitCode,runCode};
