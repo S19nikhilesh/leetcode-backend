@@ -106,7 +106,12 @@ function Signup() {
             </div>
 
             {/* Navigation to Login */}
-           
+            <div className="mt-4 text-center"> 
+              <span className="text-sm"> 
+                Already have an account? 
+                <Link to="/login" className="link link-primary ml-1 font-semibold">Login here</Link> 
+              </span>
+            </div>
 
             <button type='submit' className='btn btn-primary mt-4'>
               Sign Up
