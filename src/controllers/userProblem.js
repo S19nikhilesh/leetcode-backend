@@ -63,17 +63,20 @@ const updateProblem=async(req,res)=>{
         for (const{language,completeCode} of referenceSolution){
             console.log("kuch toh hora update")
             console.log(language)
-            const submitResult=await submitBatch(combinedInput,language,completeCode);
+            const submitResult=await executeCode(combinedInput,language,completeCode);
             if (submitResult.statusCode !== 200) {
                 return res.status(400).send("Reference solution failed to execute");
             }
 
-            const actualOutputs = submitResult.output.trim().split("\n");
+            const actualOutputs = submitResult.output
+            .split("\n")
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
 
             for (let i = 0; i < visibleTestCases.length; i++) {
                 const expected = visibleTestCases[i].output.trim();
                 const actual = (actualOutputs[i] || "").trim();
-        
+                console.log(expected,actual)
                 if (expected !== actual) {
                    return res.status(400).send("Reference solution does not match expected outputs");
                 }
@@ -110,6 +113,7 @@ const getProblemById=async(req,res)=>{
         if(!id){
             res.status(404).send("Id is Missing");
         }
+        console.log(id)
         //const getProblem=await Problem.findById(id);//par yeh toh sara data bhej rhahai hiddentestcase bhi 
         const getProblem=await Problem.findById(id).select(' _id title description difficulty tags visibleTestCases startCode');
         if(!getProblem){

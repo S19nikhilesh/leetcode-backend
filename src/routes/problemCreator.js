@@ -5,7 +5,7 @@ const userMiddleware=require("../middlewares/userMiddleware")
 
 const {createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem,getSolvedProblemsByUser,getSubmittedProblems}=require("../controllers/userProblem")
 
-//admin access required for these 3 only
+//admin access chahidi hai pehla
 problemRouter.post("/create",adminMiddleware,createProblem);
 problemRouter.put("/update/:id",adminMiddleware,updateProblem);
 problemRouter.delete("/delete/:id",adminMiddleware,deleteProblem);

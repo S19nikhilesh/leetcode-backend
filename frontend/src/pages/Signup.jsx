@@ -1,6 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { z } from 'zod'; //FOR SCHEMA VALIDATION , react-hook form supports it
+import { useDispatch ,useSelector} from 'react-redux';
+import { registerUser } from '../authSlice';
+import { useNavigate } from 'react-router';
+import { useEffect } from 'react';
 
 //schema validation for signup
 const signupSchema = z.object({
@@ -8,12 +12,32 @@ const signupSchema = z.object({
   emailId: z.string().email(),
   password: z.string().min(8, "Password should contain atleast 8 characters")
 })
+
+
 //...regsiter ek object return karta hai isliye spread operator lagaya
 //&& ka matlab agr firdt conditon true then return second , but if first false then return first
-function Signup() {
+function Signup() 
+{
+
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const {isAuthenticated}=useSelector((state)=>state.auth)
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(signupSchema),
   });
+
+  useEffect(()=>{
+    if(isAuthenticated){
+      navigate('/')
+    }
+  },[isAuthenticated,navigate])
+
+  const onSubmit=(data)=>{
+    console.log(data)
+    dispatch(registerUser(data))
+  }
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200">
@@ -21,7 +45,7 @@ function Signup() {
         <div className="card-body">
           <h2 className="card-title justify-center text-3xl">LeetCode</h2>
           
-          <form onSubmit={handleSubmit((data) => console.log(data))} className="flex flex-col gap-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
             <div className="form-control">
               <label className="label mb-1">
                 <span className="label-text">First Name</span>

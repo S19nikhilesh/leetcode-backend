@@ -57,7 +57,7 @@ const submitCode=async (req,res) => {
         else {
         
             numberOfTestCasesPassed = checkOutput(submitResult, problem.hiddenTestCases);
-        
+            numberOfTestCasesPassed--;
             if (numberOfTestCasesPassed === problem.hiddenTestCases.length) {
                 status = "accepted";
                 runTime=submitResult.cpuTime;
@@ -117,7 +117,7 @@ const runCode=async (req,res) => {
         const numberOfTestCasesPassed = checkOutput(submitResult, problem.visibleTestCases);
         
         
-        res.status(200).send(`Passed ${numberOfTestCasesPassed} / ${problem.visibleTestCases.length} testcases`)
+        res.status(200).send(`Passed ${numberOfTestCasesPassed-1} / ${problem.visibleTestCases.length} testcases`)
 
     }catch(err){
         res.status(500).send( "Internal Server error" +err);

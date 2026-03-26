@@ -2,6 +2,7 @@ const express= require('express');
 const app=express();
 require('dotenv').config();
 const main=require('./config/db');
+const cors=require('cors')
 
 const authRouter=require("./routes/userAuth")
 const problemRouter=require("./routes/problemCreator")
@@ -10,6 +11,10 @@ const cookieParser = require('cookie-parser');
 const redisClient=require("./config/redis");
 const submitRouter = require('./routes/submit');
 
+app.use(cors({
+ origin:'http://localhost:5173',// '*' anyone can access
+ credentials:true
+}))
 app.use(express.json());
 app.use(cookieParser());
 

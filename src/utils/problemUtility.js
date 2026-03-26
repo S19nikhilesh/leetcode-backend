@@ -98,7 +98,7 @@ for ( i = 0; i < visibleTestCases.length; i++) {
   }
 
 }
-return i;
+return i+1;
  
 };
 
