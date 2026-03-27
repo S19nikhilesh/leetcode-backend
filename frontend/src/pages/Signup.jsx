@@ -17,7 +17,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated,loading } = useSelector((state) => state.auth);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(signupSchema),
@@ -113,8 +113,8 @@ function Signup() {
               </span>
             </div>
 
-            <button type='submit' className='btn btn-primary mt-4'>
-              Sign Up
+            <button type='submit' className={`btn btn-primary mt-4 ${loading?'loading':''}`} disabled={loading}>
+              {loading?'Signing Up...':'Sign Up'}
             </button>
           </form>
         </div>

@@ -12,7 +12,7 @@ import { useEffect } from "react";
 function App() {
   
   //is autenticated hai ya nhi uska code yaha pe hoga 
-  const {isAuthenticated}=useSelector((state)=>state.auth) //state. slice ka naam
+  const {isAuthenticated,loading}=useSelector((state)=>state.auth) //state. slice ka naam
 
   const dispatch=useDispatch();
 
@@ -20,7 +20,12 @@ function App() {
     dispatch(checkAuth()); //function call
   },[dispatch])//ek hi baar call krna chchta hu , jab dispatch change ho -jo kabhi hoga nhi,ya khali array bhi chodd skte ho
 
-
+  if(loading){
+    return<div className="min-h-screen flex items-center justify-center">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>
+  }
+ //pehle directly siginup page pe redirect hora tha . 
   return (
     <>
       <Routes>
