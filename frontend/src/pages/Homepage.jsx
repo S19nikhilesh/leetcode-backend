@@ -11,7 +11,8 @@ function Homepage() {
 
   const [problems, setProblems] = useState([]);
   const [solvedProblems, setSolvedProblems] = useState([]);
-  const [loading, setLoading] = useState(true); // Added loading state
+  // const [loading, setLoading] = useState(true); // Added loading state
+  const loading=false;
   const [filters, setFilters] = useState({
     status: 'all',
     difficulty: 'all',
@@ -19,25 +20,31 @@ function Homepage() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const [probRes, solvedRes] = await Promise.all([
-          axiosClient.get('/problem/getAllProblem'),
-          user ? axiosClient.get('/problem/problemSolvedByUser') : Promise.resolve({ data: [] })
-        ]);
-        
-        setProblems(probRes.data);
-        if (user) setSolvedProblems(solvedRes.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
+   
+      const fetchProblems=async()=>{
+        try{
+          const {data}=await axiosClient.get('/problem/getAllProblem')
+          setProblems(data);
+        }catch(error){
+          console.log('Error Fetching Problems',error);
+        }
+      };
+      
+      const fetchSolvedProblems=async()=>{
+        try{
+          const {data}=await axiosClient.get('/problem/solvedProblemsByUser')
+          setSolvedProblems(data);
+        }catch(error){
+          console.log('Error Fetching Problems',error);
+        }
+      };
 
-    fetchData();
-  }, [user]);
+      fetchProblems();
+      
+      if(user) fetchSolvedProblems();
+    } 
+    , [user]);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -49,12 +56,10 @@ function Homepage() {
 
   const filteredProblems = problems.filter((prob) => {
     const matchDifficulty = filters.difficulty === 'all' || prob.difficulty.toLowerCase() === filters.difficulty;
-    const matchTag = filters.tag === 'all' || (prob.tags && prob.tags.includes(filters.tag));
+    const matchTag = filters.tag === 'all' || (prob.tags ===filters.tag);
     
-    let matchStatus = true;
-    const isSolved = solvedProblems.some(sp => sp._id === prob._id);
-    if (filters.status === 'solved') matchStatus = isSolved;
-    else if (filters.status === 'unsolved') matchStatus = !isSolved;
+    const matchStatus = filters.status==='all'||solvedProblems.some(sp => sp._id === prob._id);
+  
 
     return matchDifficulty && matchTag && matchStatus;
   });
@@ -77,7 +82,7 @@ function Homepage() {
                   <UserIcon size={20} />
                 </div>
               </label>
-              <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-content/10">
+              <ul tabIndex={0} className="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-content/10">
                 <li className="menu-title text-primary">Hello, {user.firstName}</li>
                 <li><Link to="/profile">Profile</Link></li>
                 <li><button onClick={handleLogout} className="text-error"><LogOut size={16}/> Logout</button></li>
@@ -192,13 +197,14 @@ function Homepage() {
                       </td>
                       <td>
                         <div className="flex flex-wrap gap-1">
-                          {problem.tags?.map(tag => (
-                            <span key={tag} className="badge badge-outline badge-xs opacity-60">{tag}</span>
-                          ))}
+                          {
+                            <span key={problem.tags} className="badge badge-outline badge-xs opacity-60">{problem.tags}</span>
+                          }
                         </div>
                       </td>
                       <td className="text-right">
-                        <Link to={`/problem/${problem._id}`} className="btn btn-ghost btn-xs text-primary">Solve</Link>
+                        {/* <Link to={`/problem/${problem._id}`} className="btn btn-ghost btn-xs text-primary">Solve</Link> */}
+                        <span className="btn btn-ghost btn-xs text-primary">Solve</span>
                       </td>
                     </tr>
                   )

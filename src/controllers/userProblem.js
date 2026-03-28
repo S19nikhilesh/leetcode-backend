@@ -16,7 +16,7 @@ const createProblem=async(req,res)=>{
         
         console.log(combinedInput)
         for (const{language,completeCode} of referenceSolution){
-        
+            if (!completeCode || completeCode.trim() === "") continue;
             console.log(language)
             const submitResult=await executeCode(combinedInput,language,completeCode);
             if (submitResult.statusCode !== 200) {
@@ -25,7 +25,7 @@ const createProblem=async(req,res)=>{
    
             const numberOfTestCasesPassed= checkOutput(submitResult,visibleTestCases);
             if (numberOfTestCasesPassed !== visibleTestCases.length) {
-                return res.status(400).send(`Reference solution does not match expected outputs ,failed at test case ${numberOfTestCasesPassed} of ${visibleTestCases.length}`);
+                return res.status(400).send(`Reference solution does not match expected outputs ,failed at test case ${numberOfTestCasesPassed} of ${visibleTestCases.length} in language ${language}`);
             }
 
            
@@ -135,6 +135,7 @@ const getAllProblem=async(req,res)=>{
         if(getProblem.length==0){
             return res.status(404).send("no problems exists")
         }
+        
         res.status(200).send(getProblem);
     }catch(err){
         res.status(500).send("Error:"+err)
@@ -148,8 +149,9 @@ const getSolvedProblemsByUser=async (req,res) => {
             path:"ProblemSolved",
             select:"_id title difficulty tags"
         })
-        // const count=req.result.ProblemSolved.length;
-        // const allProblemsId=req.result.ProblemSolved
+       
+    
+        
         res.status(200).send(user.ProblemSolved)
     }catch(err){
         res.status(500).send("Server Error");

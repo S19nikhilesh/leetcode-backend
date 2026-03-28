@@ -9,7 +9,7 @@ const getLanguageName = (lang) => {
     const languageMap = {
       "c++": "cpp",
       "c": "c",
-      "python": "python3",
+      "python": "java",
       "java": "java"
     };
   
@@ -48,12 +48,27 @@ const getDriverTemplate=(lang,USER_CODE)=>{
           return 0;
       }
       `,
-    "python":`
-        t = int(input())
-      for _ in range(t):
-        ${USER_CODE}`
+    "java": `
+    import java.util.Scanner;
 
+    public class Main {
+        public static void main(String[] args) {
+            Scanner sc = new Scanner(System.in);
+            
+            if (sc.hasNextInt()) {
+                int t = sc.nextInt();
+                
+                while (t-- > 0) {
+                    ${USER_CODE}
+                }
+            }
+            
+            sc.close();
+        }
+    }
+    `
   }
+
   if (!driverTemplate[lang.toLowerCase()]) {
     throw new Error("Driver template not found for language");
   }
@@ -87,18 +102,18 @@ const checkOutput=(submitResult,visibleTestCases)=>{
 
   
 const actualOutputs = submitResult.output.trim().split("\n"); 
-let i = 0;
+let passedCount = 0;
+    for (let i = 0; i < visibleTestCases.length; i++) {
+        const expected = visibleTestCases[i].output.trim();
+        const actual = (actualOutputs[i] || "").trim();
 
-for ( i = 0; i < visibleTestCases.length; i++) {
-  const expected = visibleTestCases[i].output.trim();
-  const actual = (actualOutputs[i] || "").trim();
-
-  if (expected !== actual) {
-    break;
-  }
-
-}
-return i+1;
+        if (expected === actual) {
+            passedCount++;
+        } else {
+            break; // Stop at first failure
+        }
+    }
+    return passedCount;
  
 };
 

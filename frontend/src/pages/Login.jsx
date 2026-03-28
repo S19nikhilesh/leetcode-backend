@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { loginUser } from '../authSlice';
 import { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate,Link } from 'react-router';
 
 //schema validation for login
 const LoginSchema = z.object({
