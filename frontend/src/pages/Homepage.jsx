@@ -86,6 +86,7 @@ function Homepage() {
                 <li className="menu-title text-primary">Hello, {user.firstName}</li>
                 <li><Link to="/profile">Profile</Link></li>
                 <li><button onClick={handleLogout} className="text-error"><LogOut size={16}/> Logout</button></li>
+                {user.role==='admin'&&<li><NavLink to="/admin">Admin</NavLink></li>}
               </ul>
             </div>
           ) : (
