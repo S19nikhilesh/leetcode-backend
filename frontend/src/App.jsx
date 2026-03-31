@@ -7,13 +7,16 @@ import { checkAuth } from "./authSlice";
 import { useDispatch,useSelector } from "react-redux";
 
 import { useEffect } from "react";
-import CreateProblem from "./pages/Adminpanel"
+import CreateProblem from "./components/Adminpanel"
+import DeleteProblem from "./components/Deletepanel"
+
 import ProblemPage from "./pages/Problempage"
+import Admin from "./pages/Admin";
 
 function App() {
   
   //is autenticated hai ya nhi uska code yaha pe hoga 
-  const {isAuthenticated,loading}=useSelector((state)=>state.auth) //state. slice ka naam
+  const {isAuthenticated,loading,user}=useSelector((state)=>state.auth) //state. slice ka naam
 
   const dispatch=useDispatch();
 
@@ -33,8 +36,11 @@ function App() {
         <Route path="/" element={isAuthenticated?<Homepage></Homepage>:<Navigate to="/signup"/>}></Route>
         <Route path="/login" element={isAuthenticated?<Navigate to="/"/> :<Login></Login>}></Route>
         <Route path="/signup" element={isAuthenticated?<Navigate to="/"/> :<Signup></Signup>}></Route>
-        {/* <Route path="/admin" element={isAuthenticated && user?.role==='admin'?<CreateProblem/>:<Navigate to="/"/>}></Route> */}
-        <Route path="/admin" element={<CreateProblem/>}></Route>
+
+        <Route path="/admin" element={isAuthenticated && user.role==='admin'?<Admin></Admin>:<Navigate to="/"/>}></Route>
+        <Route path="/admin/create" element={isAuthenticated && user.role==='admin'?<CreateProblem/>:<Navigate to="/"/>}></Route>
+        <Route path="/admin/delete" element={isAuthenticated && user.role==='admin'?<DeleteProblem/>:<Navigate to="/"/>}></Route>
+
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
       
       </Routes>
