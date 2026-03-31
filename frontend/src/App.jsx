@@ -13,7 +13,7 @@ import ProblemPage from "./pages/Problempage"
 function App() {
   
   //is autenticated hai ya nhi uska code yaha pe hoga 
-  const {isAuthenticated,loading,user}=useSelector((state)=>state.auth) //state. slice ka naam
+  const {isAuthenticated,loading}=useSelector((state)=>state.auth) //state. slice ka naam
 
   const dispatch=useDispatch();
 
@@ -35,7 +35,7 @@ function App() {
         <Route path="/signup" element={isAuthenticated?<Navigate to="/"/> :<Signup></Signup>}></Route>
         {/* <Route path="/admin" element={isAuthenticated && user?.role==='admin'?<CreateProblem/>:<Navigate to="/"/>}></Route> */}
         <Route path="/admin" element={<CreateProblem/>}></Route>
-        {/* <Route path="/problem/:problemId" element={<ProblemPage/>}></Route> */}
+        <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
       
       </Routes>
     </>

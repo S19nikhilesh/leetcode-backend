@@ -22,7 +22,7 @@ function Signup() {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(signupSchema),
   });
-
+  console.log("signup page tak aaya",isAuthenticated);
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/');

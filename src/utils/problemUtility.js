@@ -43,6 +43,7 @@ const getDriverTemplate=(lang,USER_CODE)=>{
 
           while(t--) {
               ${USER_CODE}
+              printf("\\n");
           }
 
           return 0;
@@ -60,6 +61,7 @@ const getDriverTemplate=(lang,USER_CODE)=>{
                 
                 while (t-- > 0) {
                     ${USER_CODE}
+                    System.out.println();
                 }
             }
             
@@ -84,8 +86,11 @@ const executeCode = async (combinedInput, language, code) => {
     {
       // clientId: process.env.JDOODLE_CLIENT_ID,
       // clientSecret: process.env.JDOODLE_CLIENT_SECRET,
-      clientId: "ddb0ab0e35c3db904124de75369028af",
-      clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
+      clientId: "d3b4a846768d2eef40b1096c65663a65",
+      clientSecret: "3699aa71661f40a533a195a311ee6fa57cd3df437a72a49cbddaff876c64126c",
+
+      // clientId: "ddb0ab0e35c3db904124de75369028af",
+      // clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
       script: getDriverTemplate(language,code),  
       stdin: combinedInput,
       language: getLanguageName(language),
@@ -99,13 +104,13 @@ const executeCode = async (combinedInput, language, code) => {
 };
 
 const checkOutput=(submitResult,visibleTestCases)=>{
+const allLines = submitResult.output.trim().split("\n");
+const cleanLines = allLines.filter(line => line.trim() !== "");  
 
-  
-const actualOutputs = submitResult.output.trim().split("\n"); 
 let passedCount = 0;
     for (let i = 0; i < visibleTestCases.length; i++) {
         const expected = visibleTestCases[i].output.trim();
-        const actual = (actualOutputs[i] || "").trim();
+        const actual = (cleanLines[i] || "").trim();
 
         if (expected === actual) {
             passedCount++;

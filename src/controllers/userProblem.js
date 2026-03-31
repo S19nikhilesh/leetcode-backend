@@ -115,7 +115,7 @@ const getProblemById=async(req,res)=>{
         }
         console.log(id)
         //const getProblem=await Problem.findById(id);//par yeh toh sara data bhej rhahai hiddentestcase bhi 
-        const getProblem=await Problem.findById(id).select(' _id title description difficulty tags visibleTestCases startCode');
+        const getProblem=await Problem.findById(id).select(' _id title description difficulty tags visibleTestCases startCode referenceSolution');
         if(!getProblem){
             return res.status(404).send("Problem not found")
         }

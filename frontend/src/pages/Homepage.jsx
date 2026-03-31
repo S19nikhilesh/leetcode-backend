@@ -203,8 +203,7 @@ function Homepage() {
                         </div>
                       </td>
                       <td className="text-right">
-                        {/* <Link to={`/problem/${problem._id}`} className="btn btn-ghost btn-xs text-primary">Solve</Link> */}
-                        <span className="btn btn-ghost btn-xs text-primary">Solve</span>
+                        <Link to={`/problem/${problem._id}`} className="btn btn-ghost btn-xs text-primary">Solve</Link>
                       </td>
                     </tr>
                   )
