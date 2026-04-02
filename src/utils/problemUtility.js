@@ -103,23 +103,27 @@ const executeCode = async (combinedInput, language, code) => {
   return response.data;
 };
 
-const checkOutput=(submitResult,visibleTestCases)=>{
-const allLines = submitResult.output.trim().split("\n");
-const cleanLines = allLines.filter(line => line.trim() !== "");  
+const checkOutput = (submitResult, visibleTestCases) => {
+  if (!submitResult || !visibleTestCases) return 0;
+  
+  // Safety: Ensure output is a string
+  const output = String(submitResult.output || ""); 
+  const allLines = output.split(/\r?\n/);
+  const cleanLines = allLines.map(line => line.trim());
 
-let passedCount = 0;
-    for (let i = 0; i < visibleTestCases.length; i++) {
-        const expected = visibleTestCases[i].output.trim();
-        const actual = (cleanLines[i] || "").trim();
+  let passedCount = 0;
+  for (let i = 0; i < visibleTestCases.length; i++) {
+      // Safety: Ensure database output exists
+      const expected = String(visibleTestCases[i].output || "").trim();
+      const actual = (cleanLines[i] !== undefined) ? cleanLines[i] : "";
 
-        if (expected === actual) {
-            passedCount++;
-        } else {
-            break; // Stop at first failure
-        }
-    }
-    return passedCount;
- 
+      if (expected === actual) {
+          passedCount++;
+      } else {
+          break; 
+      }
+  }
+  return passedCount;
 };
 
 

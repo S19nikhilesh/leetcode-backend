@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient from '../utils/axiosClient';
 
-const AdminDelete = () => {
+const DeleteProblem = () => {
     const [problems, setProblems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -127,4 +127,4 @@ const AdminDelete = () => {
     );
 };
 
-export default AdminDelete;
+export default DeleteProblem;

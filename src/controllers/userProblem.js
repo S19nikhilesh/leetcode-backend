@@ -157,19 +157,25 @@ const getSolvedProblemsByUser=async (req,res) => {
         res.status(500).send("Server Error");
     }
 }
-const getSubmittedProblems=async (req,res) => {
-    try{
-        const userId=req.result._id;
-        const problemId=req.params.pid;
+const getSubmittedProblems = async (req, res) => {
+    try {
+        const userId = req.result._id;
+        const problemId = req.params.pid;
 
-        const ans=await Submission.find({userId,problemId});
+        const ans = await Submission.find({ userId, problemId });
 
-        if(ans.length==0)
-            res.status(200).send("No Submission is present")
+        if (ans.length === 0) {
+           
+            return res.status(200).json([]); 
+        }
 
-        res.status(200).send(ans);
-    }catch(err){
-        res.status(500).send("Internal Server Error")
+        // Add RETURN here for safety as well
+        return res.status(200).send(ans);
+
+    } catch (err) {
+        console.error(err);
+       
+        return res.status(500).send("Internal Server Error");
     }
 }
 module.exports={createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem,getSolvedProblemsByUser,getSubmittedProblems};

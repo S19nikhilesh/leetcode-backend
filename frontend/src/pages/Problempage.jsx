@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import { useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient';
+import SubmissionHistory from "../components/Sub_hist"
 
 function ProblemPage() {
   const { problemId } = useParams();
@@ -125,7 +126,7 @@ function ProblemPage() {
         <div className="w-1/2 flex flex-col border-r border-[#3c3c3c]">
         {/* Tab Headers */}
         <div className="flex bg-[#282828] text-[11px] font-medium uppercase tracking-wider">
-          {['description', 'editorial', 'solutions', 'submissions'].map((tab) => (
+          {['description', 'editorial', 'solutions', 'submissions','chatAI'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveLeftTab(tab)}
@@ -209,11 +210,15 @@ function ProblemPage() {
 
           {/* 4. SUBMISSIONS TAB */}
           {activeLeftTab === 'submissions' && (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500 italic">
-              <p className="text-lg font-semibold">Submissions History Coming Soon</p>
-              <p className="text-sm">You will be able to see your past attempts here shortly.</p>
-            </div>
+          
+              <div >
+                <SubmissionHistory problemId={problemId}/>
+              </div>
+             
+            
           )}
+
+        
         </div>
       </div>
 
