@@ -218,7 +218,13 @@ function ProblemPage() {
             
           )}
 
-        
+          {/*AI KA CODE*/}
+          {activeLeftTab === 'chatAI' && (
+            <div className="flex flex-col items-center justify-center h-full text-gray-500 italic">
+              <p className="text-lg font-semibold">chat with AI Coming Soon</p>
+              <p className="text-sm">We are working on a detailed explanation for this problem.</p>
+            </div>
+          )}
         </div>
       </div>
 
