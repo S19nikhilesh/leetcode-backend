@@ -1,11 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { Send } from 'lucide-react';
+import axiosClient from '../utils/axiosClient';
 
 const ChatAi = () => {
   const { register, handleSubmit, reset } = useForm();
   const [messages, setMessages] = useState([
-    { role: 'ai', text: "It's over Anakin, I have the high ground." }
+    {
+      role: "user",
+      parts: [{ text: "Hello" }],
+    },
+    {
+      role: "model",
+      parts: [{ text: "Great to meet you. What would you like to know?" }],
+    }
   ]);
   const messagesEndRef = useRef(null);
 
@@ -17,15 +25,29 @@ const ChatAi = () => {
     scrollToBottom();
   }, [messages]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     // Add user message
-    setMessages([...messages, { role: 'user', text: data.message }]);
+  
+    setMessages([...messages, { role: 'user', parts: [{ text: data.message }] }]);
     reset();
     
-    // Simple AI echo for testing
-    // setTimeout(() => {
-    //   setMessages(prev => [...prev, { role: 'ai', text: "You underestimate my power!" }]);
-    // }, 600);
+    try{
+      const response=await axiosClient.post('/ai/chat',{
+        message:messages
+      });
+
+      setMessages(prev=>[...prev,{
+        role: 'model',
+        parts: [{ text: response.data.message }] 
+      }])
+    }catch(err){
+      console.log("API Error",err)
+      setMessages(prev=>[...prev,{
+        role: 'model',
+        parts: [{ text: "Error from AI chatbot" }] 
+      }])
+    }
+
   };
 
   return (
@@ -33,9 +55,9 @@ const ChatAi = () => {
       {/* Scrollable Chat Area */}
       <div className="flex-1 overflow-y-auto mb-4 scrollbar-hide">
         {messages.map((msg, idx) => (
-          <div key={idx} className={`chat ${msg.role === 'ai' ? 'chat-start' : 'chat-end'}`}>
-            <div className={`chat-bubble ${msg.role === 'ai' ? 'chat-bubble-neutral' : 'chat-bubble-success'}`}>
-              {msg.text}
+          <div key={idx} className={`chat ${msg.role === 'model' ? 'chat-start' : 'chat-end'}`}>
+            <div className={`chat-bubble ${msg.role === 'model' ? 'chat-bubble-neutral' : 'chat-bubble-success'}`}>
+              {msg.parts[0].text}
             </div>
           </div>
         ))}
