@@ -222,7 +222,7 @@ function ProblemPage() {
           {activeLeftTab === 'chatAI' && (
             <div >
               <p className="text-lg font-semibold">chat with AI </p>
-             <ChatAi/>
+             <ChatAi problem={problem}/>
             </div>
           )}
         </div>

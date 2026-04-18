@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Send } from 'lucide-react';
 import axiosClient from '../utils/axiosClient';
 
-const ChatAi = () => {
+const ChatAi = ({problem}) => {
   const { register, handleSubmit, reset } = useForm();
   const [messages, setMessages] = useState([
     {
@@ -33,7 +33,11 @@ const ChatAi = () => {
     
     try{
       const response=await axiosClient.post('/ai/chat',{
-        message:messages
+        message:messages,
+        title:problem.title,
+        description:problem.description,
+        testCases:problem.visibleTestCases,
+        startCode:problem.startCode
       });
 
       setMessages(prev=>[...prev,{

@@ -2,12 +2,12 @@ const{GoogleGenAI}= require("@google/genai") ;
 
 const solveDoubt=async (req,res) => {
     try{
-        
+        const { message, title, description, testCases, startCode } = req.body;
         const ai = new GoogleGenAI({apiKey: process.env.GEMINI_KEY})
         async function main() {
             const response = await ai.models.generateContent({
               model: "gemini-3-flash-preview",
-              contents: "Hello there",
+              contents: message,
               config: {
                 maxOutputTokens:500,
                 systemInstruction: `You are an expert Data Structures and Algorithms (DSA) tutor specializing in helping users solve coding problems. Your role is strictly limited to DSA-related topics.
@@ -109,14 +109,18 @@ const solveDoubt=async (req,res) => {
                 Remember: Your goal is to help users learn and understand DSA concepts thoroughly.`
             },
             });
-            res.status(200).send(response.text);
+            res.status(201).json({
+                message:response.text
+            });
             console.log(response.text);
           }
           
           await main();
     }catch(err){
         console.log(err)
-        res.status(500).send("Internal Server Error");
+        res.status(500).json({
+            message:"Internal Server Error"
+        });
     }
 }
 
