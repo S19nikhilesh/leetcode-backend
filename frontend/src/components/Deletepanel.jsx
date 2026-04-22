@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axiosClient from '../utils/axiosClient';
-
+import { useNavigate,Link } from 'react-router';
 const DeleteProblem = () => {
     const [problems, setProblems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState(""); // Bonus: for easy searching
+    const navigate=useNavigate();
 
     useEffect(() => {
         fetchProblems();
@@ -35,6 +36,11 @@ const DeleteProblem = () => {
             setError('Failed to delete problem');
             console.error(err);
         }
+    };
+
+    const handleUpdate = async (id) => {
+
+        navigate(`/admin/update/${id}`)
     };
 
     // Filter problems based on search term
@@ -108,6 +114,12 @@ const DeleteProblem = () => {
                                                 className="btn btn-sm btn-error btn-outline hover:text-white"
                                             >
                                                 Delete
+                                            </button>
+                                            <button 
+                                                onClick={() => handleUpdate(problem._id)}
+                                                className="btn btn-sm  btn-outline hover:text-white"
+                                            >
+                                                Update
                                             </button>
                                         </div>
                                     </td>

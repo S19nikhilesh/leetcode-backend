@@ -13,20 +13,12 @@ function Admin() {
       bgColor: 'bg-success/10',
       route: '/admin/create'
     },
-    {
-      id: 'update',
-      title: 'Update Problem',
-      description: 'Edit existing problems and their details',
-      icon: Edit,
-      color: 'btn-warning',
-      bgColor: 'bg-warning/10',
-      route: '/admin/update'
-    },
+   
     {
       id: 'delete',
-      title: 'Delete Problem',
-      description: 'Remove problems from the platform',
-      icon: Trash2,
+      title: 'Delete / Update Problem',
+      description: 'Manage problems from the platform',
+      icon: Edit,
       color: 'btn-error',
       bgColor: 'bg-error/10',
       route: '/admin/delete'
@@ -44,7 +36,7 @@ function Admin() {
       </div>
 
       {/* Admin Options Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2  gap-8 max-w-6xl mx-auto">
         {adminOptions.map((option) => {
           const IconComponent = option.icon;
           return (

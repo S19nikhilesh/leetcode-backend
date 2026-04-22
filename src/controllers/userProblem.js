@@ -45,7 +45,7 @@ const createProblem=async(req,res)=>{
 const updateProblem=async(req,res)=>{
     const {id}=req.params
     const {title,description,difficulty,tags,visibleTestCases,hiddenTestCases,startCode,referenceSolution,problemCreator}=req.body;
-
+    console.log("request aai toh hai ", id);
     try{
         if(!id){
             res.status(400).send("Missing Id Field");
@@ -115,7 +115,7 @@ const getProblemById=async(req,res)=>{
         }
         console.log(id)
         //const getProblem=await Problem.findById(id);//par yeh toh sara data bhej rhahai hiddentestcase bhi 
-        const getProblem=await Problem.findById(id).select(' _id title description difficulty tags visibleTestCases startCode referenceSolution');
+        const getProblem=await Problem.findById(id).select(' _id title description difficulty tags hiddenTestCases visibleTestCases startCode referenceSolution');
         if(!getProblem){
             return res.status(404).send("Problem not found")
         }

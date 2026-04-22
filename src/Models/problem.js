@@ -60,6 +60,18 @@ const problemSchema= new Schema({
             }
         }
     ],
+    SecretStartCode:[
+        {
+            language:{
+                type:String,
+                required:true
+            },
+            initialCode:{
+                type:String,
+                required:true
+            }
+        }
+    ],
     referenceSolution:[
         {
             language:{

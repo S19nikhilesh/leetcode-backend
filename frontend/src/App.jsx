@@ -12,6 +12,7 @@ import DeleteProblem from "./components/Deletepanel"
 
 import ProblemPage from "./pages/Problempage"
 import Admin from "./pages/Admin";
+import UpdateProblem from "./components/Codepanel";
 
 function App() {
   
@@ -40,9 +41,11 @@ function App() {
         <Route path="/admin" element={isAuthenticated && user.role==='admin'?<Admin></Admin>:<Navigate to="/"/>}></Route>
         <Route path="/admin/create" element={isAuthenticated && user.role==='admin'?<CreateProblem/>:<Navigate to="/"/>}></Route>
         <Route path="/admin/delete" element={isAuthenticated && user.role==='admin'?<DeleteProblem/>:<Navigate to="/"/>}></Route>
+        <Route path="/admin/update/:id" element={isAuthenticated && user.role==='admin'?<UpdateProblem/>:<Navigate to="/"/>} ></Route>
+
 
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
-      
+        
       </Routes>
     </>
   )

@@ -6,7 +6,7 @@ const solveDoubt=async (req,res) => {
         const ai = new GoogleGenAI({apiKey: process.env.GEMINI_KEY})
         async function main() {
             const response = await ai.models.generateContent({
-              model: "gemini-3-flash-preview",
+              model: "Gemini 2.5 Flash-Lite",
               contents: message,
               config: {
                 maxOutputTokens:500,
@@ -108,7 +108,7 @@ const solveDoubt=async (req,res) => {
 
                 Remember: Your goal is to help users learn and understand DSA concepts thoroughly.`
             },
-            });
+            }); 
             res.status(201).json({
                 message:response.text
             });
