@@ -57,15 +57,15 @@ const problemSchema= new Schema({
             initialCode:{
                 type:String,
                 required:true
-            },
-            hiddenStartCode:{ 
-                type: String,
-                required:true 
-            },           
-            functionCall:{ 
-                type: String,
-                required:true
             }
+            // hiddenStartCode:{ 
+            //     type: String,
+            //     required:true 
+            // },           
+            // functionCall:{ 
+            //     type: String,
+            //     required:true
+            // }
         }
     ],
     referenceSolution:[
