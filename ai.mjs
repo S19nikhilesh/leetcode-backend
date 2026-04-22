@@ -1,13 +1,35 @@
-useEffect(() => {
-  const fetchProblems = async () => {
-      try {
-          // 3. Use 'id' here
-          const res = await axiosClient.get(`/problem/ProblemById/${id}`);
-          setProblems(res.data);
-      } catch (err) {
-          console.error("API Error:", err);
-      }
-  };
-  
-  if (id) fetchProblems();
-}, [id]);
+//hiddenStartCode
+int n;
+cin >> n;
+
+// problem.startCode?.find(c => c.language === selectedLanguage)?.initialCode;
+int sumOfNumbers(int n){
+    //code here
+}
+
+//reference solution 
+cout << (n * (n + 1)) / 2;
+
+//functionCall
+int a=sumOfNumbers(n)
+cout<<a
+
+
+
+----previous schema was----
+
+//problem.startCode?.find(c => c.language === selectedLanguage)?.initialCode;
+
+//int main(){
+//code here
+//}
+
+
+//reference solution.completecode
+int n;
+cin >> n;
+cout << (n * (n + 1)) / 2;
+
+
+
+

@@ -57,17 +57,13 @@ const problemSchema= new Schema({
             initialCode:{
                 type:String,
                 required:true
-            }
-        }
-    ],
-    SecretStartCode:[
-        {
-            language:{
-                type:String,
-                required:true
             },
-            initialCode:{
-                type:String,
+            hiddenStartCode:{ 
+                type: String,
+                required:true 
+            },           
+            functionCall:{ 
+                type: String,
                 required:true
             }
         }
