@@ -7,7 +7,7 @@ const cors=require('cors')
 const authRouter=require("./routes/userAuth")
 const problemRouter=require("./routes/problemCreator")
 const aiRouter=require("./routes/aiChatting")
-
+const videoRouter = require("./routes/videoCreator");
 const cookieParser = require('cookie-parser');
 const redisClient=require("./config/redis");
 const submitRouter = require('./routes/submit');
@@ -18,7 +18,7 @@ app.use(cors({
 }))
 app.use(express.json());
 app.use(cookieParser());
-
+app.use("/video",videoRouter);
 app.use('/user',authRouter);
 app.use('/problem',problemRouter);
 app.use('/submission',submitRouter);

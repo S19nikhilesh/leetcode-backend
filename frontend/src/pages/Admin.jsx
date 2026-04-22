@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2,Video } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 function Admin() {
@@ -15,13 +15,31 @@ function Admin() {
     },
    
     {
-      id: 'delete',
-      title: 'Delete / Update Problem',
-      description: 'Manage problems from the platform',
+      id: 'update',
+      title: 'Update Problem',
+      description: 'Edit existing problems and their details',
       icon: Edit,
+      color: 'btn-warning',
+      bgColor: 'bg-warning/10',
+      route: '/admin/update'
+    },
+    {
+      id: 'delete',
+      title: 'Delete Problem',
+      description: 'Remove problems from the platform',
+      icon: Trash2,
       color: 'btn-error',
       bgColor: 'bg-error/10',
       route: '/admin/delete'
+    },
+    {
+      id: 'video',
+      title: 'Video Problem',
+      description: 'Upload And Delete Videos',
+      icon: Video,
+      color: 'btn-success',
+      bgColor: 'bg-success/10',
+      route: '/admin/video'
     }
   ];
 

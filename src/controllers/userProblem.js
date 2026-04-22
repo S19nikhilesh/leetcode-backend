@@ -1,9 +1,9 @@
-const Problem=require("../Models/problem");
+const Problem=require("../models/problem");
 const {executeCode,checkOutput}=require("../utils/problemUtility");
-const User=require("../Models/users");
-const Submission = require("../Models/submission");
+const User=require("../models/users");
+const Submission = require("../models/submission");
 const adminMiddleware = require("../middlewares/adminMiddleware");
-
+const SolutionVideo = require("../models/solutionVideo")
 
 const createProblem=async(req,res)=>{
     const {title,description,difficulty,tags,visibleTestCases,hiddenTestCases,startCode,referenceSolution,problemCreator}=req.body;
@@ -119,7 +119,22 @@ const getProblemById=async(req,res)=>{
         if(!getProblem){
             return res.status(404).send("Problem not found")
         }
-        res.status(200).send(getProblem);
+
+        const videos = await SolutionVideo.findOne({problemId:id});
+
+        if(videos){   
+    
+        const responseData = {
+         ...getProblem.toObject(),
+        secureUrl:videos.secureUrl,
+        thumbnailUrl : videos.thumbnailUrl,
+        duration : videos.duration,
+        } 
+  
+        return res.status(200).send(responseData);
+        }
+
+    res.status(200).send(getProblem);
     }catch(err){
         res.status(500).send("Error:"+err)
     }

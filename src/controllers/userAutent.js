@@ -1,5 +1,5 @@
-const User= require('../Models/users');
-const Submission=require('../Models/submission')
+const User= require('../models/users');
+const Submission=require('../models/submission')
 const validate=require('../utils/validator')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")

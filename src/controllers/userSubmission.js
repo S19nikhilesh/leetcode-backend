@@ -1,5 +1,5 @@
-const Submission = require('../Models/submission');
-const Problem=require('../Models/problem');
+const Submission = require('../models/submission');
+const Problem=require('../models/problem');
 const {executeCode,checkOutput}=require("../utils/problemUtility");
 
 
