@@ -12,7 +12,7 @@ cout << (n * (n + 1)) / 2;
 
 //functionCall
 int a=sumOfNumbers(n)
-cout<<a
+cout<<a;
 
 
 

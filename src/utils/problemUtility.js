@@ -16,18 +16,28 @@ const getLanguageName = (lang) => {
     return languageMap[lang.toLowerCase()];
 };
 
-const getDriverTemplate=(lang,USER_CODE)=>{
+const getDriverTemplate=(lang,USER_CODE,template_codes)=>{
+
+    const config = template_codes.find(
+      (c) => c.language.toLowerCase() === lang.toLowerCase()
+  );
+
+  if (!config) {
+      throw new Error(`Configuration not found for language: ${lang}`);
+  }
+
   const driverTemplate={
     "c++": `
       #include <iostream>
       using namespace std;
-
+      ${USER_CODE} 
       int main() {
           int t;
           cin >> t;
 
           while(t--) {
-            ${USER_CODE}
+            ${config.hiddenStartCode || ""}
+            ${config.functionCall || ""}
             cout << endl;
           }
 
@@ -79,7 +89,7 @@ const getDriverTemplate=(lang,USER_CODE)=>{
 };
 
 
-const executeCode = async (combinedInput, language, code) => {
+const executeCode = async (combinedInput, language, code,template_codes) => {
   // console.log(language,combinedInput,code)
   const response = await axios.post(
     "https://api.jdoodle.com/v1/execute",
@@ -91,7 +101,7 @@ const executeCode = async (combinedInput, language, code) => {
 
       // clientId: "ddb0ab0e35c3db904124de75369028af",
       // clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
-      script: getDriverTemplate(language,code),  
+      script: getDriverTemplate(language,code,template_codes),  
       stdin: combinedInput,
       language: getLanguageName(language),
       versionIndex: "4"
