@@ -9,10 +9,11 @@ import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
 import CreateProblem from "./components/Adminpanel"
 import DeleteProblem from "./components/Deletepanel"
-
+import AdminVideo from "./components/Adminvideo"
 import ProblemPage from "./pages/Problempage"
 import Admin from "./pages/Admin";
 import UpdateProblem from "./components/Codepanel";
+import AdminUpload from "./components/AdminUpload"
 
 function App() {
   
@@ -43,7 +44,8 @@ function App() {
         <Route path="/admin/delete" element={isAuthenticated && user.role==='admin'?<DeleteProblem/>:<Navigate to="/"/>}></Route>
         <Route path="/admin/update/:id" element={isAuthenticated && user.role==='admin'?<UpdateProblem/>:<Navigate to="/"/>} ></Route>
 
-
+        <Route path="/admin/video" element={isAuthenticated && user?.role === 'admin' ? <AdminVideo /> : <Navigate to="/" />} />
+        <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <AdminUpload /> : <Navigate to="/" />} />
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
         
       </Routes>

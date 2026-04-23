@@ -15,19 +15,10 @@ function Admin() {
     },
    
     {
-      id: 'update',
-      title: 'Update Problem',
-      description: 'Edit existing problems and their details',
-      icon: Edit,
-      color: 'btn-warning',
-      bgColor: 'bg-warning/10',
-      route: '/admin/update'
-    },
-    {
       id: 'delete',
-      title: 'Delete Problem',
-      description: 'Remove problems from the platform',
-      icon: Trash2,
+      title: 'Delete / Update Problem',
+      description: 'Manage problems from the platform',
+      icon: Edit,
       color: 'btn-error',
       bgColor: 'bg-error/10',
       route: '/admin/delete'
