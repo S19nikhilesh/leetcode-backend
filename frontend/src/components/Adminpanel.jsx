@@ -23,12 +23,15 @@ const problemSchema = z.object({
   })),
   startCode: z.array(z.object({
     language: z.string(),
-    initialCode: z.string()
+    initialCode: z.string(),
+    hiddenStartCode: z.string(),
+    functionCall: z.string()
   })),
   referenceSolution: z.array(z.object({
     language: z.string(),
     completeCode: z.string()
-  }))
+  })) // Match Mongoose 'required'
+         // Match Mongoose 'required'
 });
 
 const LANGUAGES = ["c++", "c", "java"];
@@ -43,7 +46,7 @@ function Adminpanel() {
       tags: 'array',
       visibleTestCases: [{ input: '', output: '', explanation: '' }],
       hiddenTestCases: [{ input: '', output: '' }],
-      startCode: LANGUAGES.map(lang => ({ language: lang, initialCode: '' })),
+      startCode: LANGUAGES.map(lang => ({ language: lang, initialCode: '',hiddenStartCode: '', functionCall: ''  })),
       referenceSolution: LANGUAGES.map(lang => ({ language: lang, completeCode: '' }))
     }
   });
@@ -149,6 +152,8 @@ function Adminpanel() {
                 <h3 className="font-bold uppercase text-primary mb-2">{lang}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <textarea {...register(`startCode.${index}.initialCode`)} placeholder="Initial Code (Starter)" className="textarea textarea-bordered font-mono text-sm h-32" />
+                  <textarea {...register(`startCode.${index}.hiddenStartCode`)} placeholder="hidden start Code" className="textarea textarea-bordered font-mono text-sm h-32" />
+                  <textarea {...register(`startCode.${index}.functionCall`)} placeholder="function call" className="textarea textarea-bordered font-mono text-sm h-32" />
                   <textarea {...register(`referenceSolution.${index}.completeCode`)} placeholder="Reference Solution (Must Pass)" className="textarea textarea-bordered textarea-primary font-mono text-sm h-32" />
                 </div>
               </div>

@@ -33,5 +33,27 @@ cout << (n * (n + 1)) / 2;
 
 
 
+------
+3
 
+--- Validating c++ ---
+
+
+#include <iostream>
+using namespace std;
+
+int sumOfNumbers(int n){
+   cout << (n * (n + 1)) / 2;
+}
+
+int main() {
+    int t; cin >> t;
+    while(t--) {
+        int n;
+        cin >> n;
+        cout<<sumOfNumbers(n);
+        cout << endl; 
+    }
+    return 0;
+}
 

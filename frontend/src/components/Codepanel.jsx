@@ -25,7 +25,9 @@ const problemSchema = z.object({
   })).min(1, 'At least one hidden test case required'),
   startCode: z.array(z.object({
     language: z.string(),
-    initialCode: z.string()
+    initialCode: z.string(),
+    hiddenStartCode: z.string(),
+    functionCall: z.string()
   })),
   referenceSolution: z.array(z.object({
     language: z.string(),
@@ -45,7 +47,7 @@ function AdminPanel() {
       tags: 'array',
       visibleTestCases: [{ input: '', output: '', explanation: '' }],
       hiddenTestCases: [{ input: '', output: '' }],
-      startCode: LANGUAGES.map(lang => ({ language: lang, initialCode: '' })),
+      startCode: LANGUAGES.map(lang => ({ language: lang, initialCode: '',hiddenStartCode: '', functionCall: ''  })),
       referenceSolution: LANGUAGES.map(lang => ({ language: lang, completeCode: '' }))
     }
   });
@@ -211,8 +213,17 @@ function AdminPanel() {
                 <label className="label text-xs font-bold opacity-70">STARTER TEMPLATE</label>
                 <textarea 
                   {...register(`startCode.${index}.initialCode`)} 
-                  className="textarea textarea-bordered font-mono text-sm h-48 bg-neutral text-neutral-content" 
+                  className="textarea textarea-bordered border-accent font-mono text-sm h-48 bg-neutral text-neutral-content"
                 />
+              </div>
+              <div className="form-control">
+                <label className="label text-xs font-bold opacity-60">HIDDEN SETUP (Before User Code)</label>
+                <textarea {...register(`startCode.${index}.hiddenStartCode`)} placeholder="int n; cin >> n;" className="textarea textarea-bordered border-accent font-mono text-sm h-48 bg-neutral text-neutral-content"/>
+              </div>
+
+              <div className="form-control">
+                <label className="label text-xs font-bold opacity-60">FUNCTION CALL (After User Code)</label>
+                <textarea {...register(`startCode.${index}.functionCall`)} placeholder="cout << sumOfNumbers(n);" className="textarea textarea-bordered border-accent font-mono text-sm h-48 bg-neutral text-neutral-content" />
               </div>
               <div className="form-control">
                 <label className="label text-xs font-bold opacity-70">REFERENCE SOLUTION</label>

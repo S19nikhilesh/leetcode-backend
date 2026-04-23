@@ -17,8 +17,30 @@ const createProblem=async(req,res)=>{
         console.log(combinedInput)
         for (const{language,completeCode} of referenceSolution){
             if (!completeCode || completeCode.trim() === "") continue;
-            console.log(language)
-            const submitResult=await executeCode(combinedInput,language,completeCode);
+            // 1. FIND the matching config for this specific language from the startCode array
+            const config = startCode.find(c => c.language.toLowerCase() === language.toLowerCase());
+           
+
+            // 2. Log the CORRECT structure (using variables, not arrays)
+            console.log(`--- Validating ${language} ---`);
+            console.log(`
+                #include <iostream>
+                using namespace std;
+                
+                ${completeCode} 
+
+                int main() {
+                    int t; cin >> t;
+                    while(t--) {
+                        ${config.hiddenStartCode || ""}
+                        ${config.functionCall || ""}
+                        cout << endl;
+                    }
+                    return 0;
+                }
+            `);
+
+            const submitResult=await executeCode(combinedInput,language,completeCode,startCode);
             if (submitResult.statusCode !== 200) {
                 return res.status(400).send("Reference solution failed to execute");
             }
@@ -63,7 +85,7 @@ const updateProblem=async(req,res)=>{
         for (const{language,completeCode} of referenceSolution){
             console.log("kuch toh hora update")
             console.log(language)
-            const submitResult=await executeCode(combinedInput,language,completeCode);
+            const submitResult=await executeCode(combinedInput,language,completeCode,startCode);
             if (submitResult.statusCode !== 200) {
                 return res.status(400).send("Reference solution failed to execute");
             }

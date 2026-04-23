@@ -44,9 +44,9 @@ const submitCode=async (req,res) => {
         problem.hiddenTestCases.length + "\n" +
         problem.hiddenTestCases.map(tc => tc.input).join("\n");
 
+        
         const template_codes=problem.startCode;
-
-       
+        const submitResult=await executeCode(combinedInput,language,code,template_codes);
 
         if (!submitResult.isCompiled) {
             status = "compile_error";
@@ -149,8 +149,13 @@ const runCode=async (req,res) => {
         problem.visibleTestCases.length + "\n" +
         problem.visibleTestCases.map(tc => tc.input).join("\n");
 
+        console.log("hi")
+        console.log("Problem StartCode:", problem.startCode);
+        const template_codes=problem.startCode;
+
         
-        const submitResult=await executeCode(combinedInput,language,code);
+        const submitResult=await executeCode(combinedInput,language,code,template_codes);
+
 
         if (!submitResult.isCompiled) {
             status = "compile_error";

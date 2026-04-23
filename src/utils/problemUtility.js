@@ -17,7 +17,10 @@ const getLanguageName = (lang) => {
 };
 
 const getDriverTemplate=(lang,USER_CODE,template_codes)=>{
-
+  if (!template_codes || !Array.isArray(template_codes)) {
+    console.error("template_codes is missing or not an array:", template_codes);
+    throw new Error("Server configuration error: Template codes not provided.");
+  }
     const config = template_codes.find(
       (c) => c.language.toLowerCase() === lang.toLowerCase()
   );
@@ -26,60 +29,65 @@ const getDriverTemplate=(lang,USER_CODE,template_codes)=>{
       throw new Error(`Configuration not found for language: ${lang}`);
   }
 
-  const driverTemplate={
+  const driverTemplate = {
     "c++": `
       #include <iostream>
       using namespace std;
       ${USER_CODE} 
       int main() {
           int t;
-          cin >> t;
-
+          if(!(cin >> t)) return 0;
           while(t--) {
             ${config.hiddenStartCode || ""}
             ${config.functionCall || ""}
             cout << endl;
           }
-
           return 0;
       }
-      `,
+    `,
     "c": `
       #include <stdio.h>
-
+      #include <stdlib.h>
+  
+      ${USER_CODE}
+  
       int main() {
           int t;
-          scanf("%d", &t);
-
+          if(scanf("%d", &t) != 1) return 0;
+  
           while(t--) {
-              ${USER_CODE}
+              ${config.hiddenStartCode || ""}
+              ${config.functionCall || ""}
               printf("\\n");
           }
-
           return 0;
       }
-      `,
+    `,
     "java": `
-    import java.util.Scanner;
-
-    public class Main {
-        public static void main(String[] args) {
-            Scanner sc = new Scanner(System.in);
-            
-            if (sc.hasNextInt()) {
-                int t = sc.nextInt();
-                
-                while (t-- > 0) {
-                    ${USER_CODE}
-                    System.out.println();
-                }
-            }
-            
-            sc.close();
-        }
-    }
+      import java.util.*;
+  
+      // User's class/method will be injected here
+      ${USER_CODE}
+  
+      public class Main {
+          public static void main(String[] args) {
+              Scanner sc = new Scanner(System.in);
+              if (sc.hasNextInt()) {
+                  int t = sc.nextInt();
+                  // We create an instance of the Solution class if the user is writing non-static methods
+                  Solution sol = new Solution(); 
+                  
+                  while (t-- > 0) {
+                      ${config.hiddenStartCode || ""}
+                      ${config.functionCall || ""}
+                      System.out.println();
+                  }
+              }
+              sc.close();
+          }
+      }
     `
-  }
+  };
 
   if (!driverTemplate[lang.toLowerCase()]) {
     throw new Error("Driver template not found for language");
@@ -96,11 +104,11 @@ const executeCode = async (combinedInput, language, code,template_codes) => {
     {
       // clientId: process.env.JDOODLE_CLIENT_ID,
       // clientSecret: process.env.JDOODLE_CLIENT_SECRET,
-      clientId: "d3b4a846768d2eef40b1096c65663a65",
-      clientSecret: "3699aa71661f40a533a195a311ee6fa57cd3df437a72a49cbddaff876c64126c",
+      // clientId: "d3b4a846768d2eef40b1096c65663a65",
+      // clientSecret: "3699aa71661f40a533a195a311ee6fa57cd3df437a72a49cbddaff876c64126c",
 
-      // clientId: "ddb0ab0e35c3db904124de75369028af",
-      // clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
+      clientId: "ddb0ab0e35c3db904124de75369028af",
+      clientSecret: "96691beb865d06bd45dac9e1bff4bd086941b9c5a2c2bfb965e7c5dc65839813",
       script: getDriverTemplate(language,code,template_codes),  
       stdin: combinedInput,
       language: getLanguageName(language),
