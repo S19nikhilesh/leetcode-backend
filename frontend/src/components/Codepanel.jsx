@@ -88,7 +88,7 @@ function AdminPanel() {
         await axiosClient.post('/problem/create', filteredData);
         alert('Problem created successfully!');
       }
-      navigate('/admin/delete');
+      navigate('/admin');
     } catch (error) {
       console.error("Submission Error:", error);
       alert(`Error: ${error.response?.data || error.message}`);

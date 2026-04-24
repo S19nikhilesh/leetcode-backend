@@ -85,8 +85,9 @@ function Homepage() {
               <ul tabIndex={0} className="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-content/10">
                 <li className="menu-title text-primary">Hello, {user.firstName}</li>
                 <li><Link to="/profile">Profile</Link></li>
+                {user.role==='admin'&&(<li><NavLink to="/admin">Admin</NavLink></li>)}
                 <li><button onClick={handleLogout} className="text-error"><LogOut size={16}/> Logout</button></li>
-                {user.role==='admin'&&<li><NavLink to="/admin">Admin</NavLink></li>}
+                
               </ul>
             </div>
           ) : (

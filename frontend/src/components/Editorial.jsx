@@ -60,7 +60,7 @@ const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
       
       {/* Video Controls Overlay */}
       <div 
-        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 transition-opacity ${
+        className={`absolute bottom-0 left-0 right-0 from-black/70 to-transparent p-4 transition-opacity ${
           isHovering || !isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
       >

@@ -32,6 +32,10 @@ const getDriverTemplate=(lang,USER_CODE,template_codes)=>{
   const driverTemplate = {
     "c++": `
       #include <iostream>
+      #include<vector>
+      #include <string>
+      #include <algorithm> 
+      #include <cctype>
       using namespace std;
       ${USER_CODE} 
       int main() {
@@ -47,6 +51,8 @@ const getDriverTemplate=(lang,USER_CODE,template_codes)=>{
     `,
     "c": `
       #include <stdio.h>
+      #include <string.h>
+      #include <ctype.h>  
       #include <stdlib.h>
   
       ${USER_CODE}
@@ -65,7 +71,7 @@ const getDriverTemplate=(lang,USER_CODE,template_codes)=>{
     `,
     "java": `
       import java.util.*;
-  
+      import java.io.*;
       // User's class/method will be injected here
       ${USER_CODE}
   

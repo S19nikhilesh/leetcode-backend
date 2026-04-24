@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { Send } from 'lucide-react';
 import axiosClient from '../utils/axiosClient';
-  
+import Markdown from 'react-markdown';
+
 const ChatAi = ({problem}) => {
   const { register, handleSubmit, reset } = useForm();
   
@@ -62,7 +63,7 @@ const ChatAi = ({problem}) => {
         {messages.map((msg, idx) => (
           <div key={idx} className={`chat ${msg.role === 'model' ? 'chat-start' : 'chat-end'}`}>
             <div className={`chat-bubble ${msg.role === 'model' ? 'chat-bubble-neutral' : 'chat-bubble-success'}`}>
-              {msg.parts[0].text}
+            <Markdown>{msg.parts[0].text}</Markdown>  
             </div>
           </div>
         ))}
