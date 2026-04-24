@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import axiosClient from '../utils/axiosClient';
 import SubmissionHistory from "../components/Sub_hist"
 import ChatAi from '../components/chatAI';
+import Editorial from '../components/Editorial';
+
 function ProblemPage() {
   const { problemId } = useParams();
   const editorRef = useRef(null);
@@ -202,9 +204,11 @@ function ProblemPage() {
 
           {/* 3. EDITORIAL TAB */}
           {activeLeftTab === 'editorial' && (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500 italic">
-              <p className="text-lg font-semibold">Editorial Coming Soon</p>
-              <p className="text-sm">We are working on a detailed explanation for this problem.</p>
+            <div className="prose max-w-none">
+              <h2 className="text-xl font-bold mb-4">Editorial</h2>
+              <div className="whitespace-pre-wrap text-sm leading-relaxed">
+                <Editorial secureUrl={problem.secureUrl} thumbnailUrl={problem.thumbnailUrl} duration={problem.duration}/>
+              </div>
             </div>
           )}
 
