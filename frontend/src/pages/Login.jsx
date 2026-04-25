@@ -17,7 +17,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch=useDispatch();
   const navigate=useNavigate();
-  const {isAuthenticated}=useSelector((state)=>state.auth)
+  // Add 'error' here!
+  const { isAuthenticated, error } = useSelector((state) => state.auth);
   
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(LoginSchema),
@@ -26,13 +27,14 @@ function Login() {
   
   useEffect(()=>{
     if(isAuthenticated){
-      navigate('/signup')
+      navigate('/')
     }
   },[isAuthenticated,navigate])
 
   
   const onSubmit=(data)=>{
     dispatch(loginUser(data))
+    
   }
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200">
@@ -41,7 +43,12 @@ function Login() {
           <h2 className="card-title justify-center text-3xl">LeetCode</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-
+          {error && (
+            <div className="alert alert-error mb-4 py-2 text-sm justify-start gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>{error}</span>
+            </div>
+          )}
             <div className="form-control">
               <label className="label mb-1">
                 <span className="label-text">Email</span>
@@ -68,7 +75,7 @@ function Login() {
               />
                <button 
                   type="button" // Important: prevents form submission
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-primary"
+                  className="absolute inset-y-0 right-0 mr-10 mt-7.5 flex items-center text-gray-500 hover:text-primary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (

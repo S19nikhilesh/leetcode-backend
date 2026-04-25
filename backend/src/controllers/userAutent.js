@@ -37,41 +37,42 @@ const register= async(req,res)=>{
         res.status(400).send("Error:"+err);// status code 400: bad request 
     }
 }
+const login = async (req, res) => {
+    try {
+        const { emailId, password } = req.body;
 
-const login=async(req,res)=>{
-    try{
-        const {emailId,password}=req.body;
+        const user = await User.findOne({ emailId });
 
-        if(!emailId)
-            throw new Error("Invalid Credentials");
-        if(!password)
-            throw new Error("Invalid Credentials");
+        // If user doesn't exist, throw error immediately
+        if (!user) throw new Error("Invalid Credentials");
 
-        const user=await User.findOne({emailId});
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) throw new Error("Invalid Credentials");
 
-        const match=await bcrypt.compare(password,user.password)
+        const token = jwt.sign(
+            { _id: user._id, emailId: emailId, role: user.role },
+            process.env.JWT_KEY,
+            { expiresIn: '1h' }
+        );
 
-        if(!match)
-            throw new Error("Invalid Credentials");
+        res.cookie("token", token, { maxAge: 60 * 60 * 1000, httpOnly: true });
 
-        const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
-        res.cookie("token",token,{maxAge: 60*60*1000 });
-        //res.status(200).send("User Login Successfully"); //ok 
-        //par kya faida sirf user login succesfully bhejne ka , hum ek extra call bcha skte hai as user login ,send user data
-        const reply={
-            firstName:user.firstName,
-            emailId:user.emailId,
-            _id:user._id
-        }
         res.status(200).json({
-            user:reply,
-            message:"Login Successfully"
-        })
+            user: {
+                firstName: user.firstName,
+                emailId: user.emailId,
+                _id: user._id,
+                role: user.role // Important for your Admin button logic!
+            },
+            message: "Login Successfully"
+        });
 
-    }catch(err){
-        res.status(401).send("Error:"+err);// status code 401: unauthorized access:authentiaction required
+    } catch (err) {
+        // Send a clean JSON object instead of a string
+        // Using err.message removes the "Error:" prefix
+        res.status(401).json({ message: err.message });
     }
-}
+};
 
 const logout=async(req,res)=>{
     try{

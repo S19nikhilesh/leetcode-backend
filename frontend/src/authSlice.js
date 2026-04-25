@@ -15,12 +15,14 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     'auth/login',
-    async (userData,{rejectWithValue}) => {
+    async (userData, { rejectWithValue }) => {
         try {
             const response = await axiosClient.post('/user/login', userData);
-            return response.data.user;
+            return response.data.user; 
         } catch (error) {
-            return rejectWithValue(error.response?.data || error);
+            // Grab the "Invalid Credentials" message from the JSON we sent above
+            const errorMessage = error.response?.data?.message || "Something went wrong";
+            return rejectWithValue(errorMessage);
         }
     }
 );
