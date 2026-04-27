@@ -14,6 +14,8 @@ import ProblemPage from "./pages/Problempage"
 import Admin from "./pages/Admin";
 import UpdateProblem from "./components/Codepanel";
 import AdminUpload from "./components/AdminUpload"
+import AdminRegister from "./components/Adminregister";
+
 
 function App() {
   
@@ -40,6 +42,7 @@ function App() {
         <Route path="/signup" element={isAuthenticated?<Navigate to="/"/> :<Signup></Signup>}></Route>
 
         <Route path="/admin" element={isAuthenticated && user.role==='admin'?<Admin></Admin>:<Navigate to="/"/>}></Route>
+        <Route path="/admin/register" element={isAuthenticated && user.role==='admin'?<AdminRegister></AdminRegister>:<Navigate to="/"/>}></Route>
         <Route path="/admin/create" element={isAuthenticated && user.role==='admin'?<CreateProblem/>:<Navigate to="/"/>}></Route>
         <Route path="/admin/delete" element={isAuthenticated && user.role==='admin'?<DeleteProblem/>:<Navigate to="/"/>}></Route>
         <Route path="/admin/update/:id" element={isAuthenticated && user.role==='admin'?<UpdateProblem/>:<Navigate to="/"/>} ></Route>

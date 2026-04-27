@@ -40,7 +40,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center text-3xl">LeetCode</h2>
+          <h2 className="card-title justify-center text-3xl">Axiom Code</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
           {error && (
@@ -71,7 +71,7 @@ function Login() {
                   {...register('password')} 
                   placeholder="********" 
                   type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pr-12 ${errors.password ? 'input-error' : ''}`}
+                  className={`input input-bordered w-full pr-4 ${errors.password ? 'input-error' : ''}`}
               />
                <button 
                   type="button" // Important: prevents form submission

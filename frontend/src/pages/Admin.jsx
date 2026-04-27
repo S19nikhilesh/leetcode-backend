@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Edit, Trash2,Video } from 'lucide-react';
+import { Plus, Edit, Trash2,Video,UserCog } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 function Admin() {
@@ -31,6 +31,15 @@ function Admin() {
       color: 'btn-success',
       bgColor: 'bg-success/10',
       route: '/admin/video'
+    },
+    {
+      id: 'video',
+      title: 'New Admin',
+      description: 'Register New Admin',
+      icon: UserCog,
+      color: 'btn-success',
+      bgColor: 'bg-success/10',
+      route: '/admin/register'
     }
   ];
 

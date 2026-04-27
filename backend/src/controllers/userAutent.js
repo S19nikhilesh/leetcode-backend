@@ -108,13 +108,13 @@ const adminRegister=async(req,res)=>{
         //if email alredy exixts yeh khud hi error fenk dega    
         const user= await User.create(req.body);
         //token bhi generate karwa de jwt.sign({emailId},"secet_key",{expiresIn: 60*60});
-        const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
-        res.cookie("token",token,{maxAge: 60*60*1000 });
+        // const token=jwt.sign({_id:user._id,emailId:emailId,role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
+        // res.cookie("token",token,{maxAge: 60*60*1000 });
         res.status(201).send("New Admin Registered Successfully");
         //new resource created status:201
 
     }catch(err){
-        res.status(400).send("Error:"+err);// status code 400: bad request 
+        res.status(400).json({ message: err.message || "Registration failed" });// status code 400: bad request 
     }
 }
 

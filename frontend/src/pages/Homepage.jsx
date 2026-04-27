@@ -70,10 +70,24 @@ function Homepage() {
       <nav className="navbar bg-base-100 border-b border-base-content/10 px-4 md:px-12 sticky top-0 z-50">
         <div className="flex-1">
           <NavLink to="/" className="text-2xl font-bold tracking-tighter text-primary">
-            LeetCode<span className="text-base-content font-light text-lg italic">Clone</span>
+            Axiom<span className="text-base-content font-light text-lg italic">Code</span>
           </NavLink>
         </div>
-        
+        <div>
+          {user?.role === 'admin' && (
+          <li className="ml-2 list-none mr-4">
+            <NavLink 
+              to="/admin" 
+              className={({ isActive }) => 
+                `btn btn-ghost btn-sm md:btn-md border border-primary/30 hover:border-primary hover:bg-primary/10 ${isActive ? 'bg-primary/20 border-primary' : ''}`
+              }
+            >
+            
+              Admin
+            </NavLink>
+          </li>
+          )}
+        </div>
         <div className="flex-none gap-2">
           {user ? (
             <div className="dropdown dropdown-end">
@@ -82,10 +96,10 @@ function Homepage() {
                   <UserIcon size={20} />
                 </div>
               </label>
+              
               <ul tabIndex={0} className="mt-3 z-1 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-content/10">
                 <li className="menu-title text-primary">Hello, {user.firstName}</li>
                 <li><Link to="/profile">Profile</Link></li>
-                {user.role==='admin'&&(<li><NavLink to="/admin">Admin</NavLink></li>)}
                 <li><button onClick={handleLogout} className="text-error"><LogOut size={16}/> Logout</button></li>
                 
               </ul>
