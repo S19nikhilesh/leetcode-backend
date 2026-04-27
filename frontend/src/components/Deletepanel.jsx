@@ -32,6 +32,7 @@ const DeleteProblem = () => {
             await axiosClient.delete(`/problem/delete/${id}`);
             // Update UI by filtering out the deleted problem
             setProblems(problems.filter(problem => problem._id !== id));
+    
         } catch (err) {
             setError('Failed to delete problem');
             console.error(err);

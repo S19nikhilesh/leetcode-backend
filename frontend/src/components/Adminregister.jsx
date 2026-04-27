@@ -33,7 +33,7 @@ function AdminRegister() {
       // Ensure this URL matches EXACTLY what you put in Postman
       await axiosClient.post('user/admin/register', payload); 
       alert('New Admin Created');
-      navigate('/admin');
+      navigate('/');
     } catch (error) {
       alert(`Error: ${error.response?.data?.message || error.message}`);
     }

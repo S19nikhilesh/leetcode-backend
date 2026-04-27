@@ -71,11 +71,11 @@ function Login() {
                   {...register('password')} 
                   placeholder="********" 
                   type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pr-4 ${errors.password ? 'input-error' : ''}`}
+                  className={`input input-bordered pr-4 ${errors.password ? 'input-error' : ''}`}
               />
                <button 
                   type="button" // Important: prevents form submission
-                  className="absolute inset-y-0 right-0 mr-10 mt-7.5 flex items-center text-gray-500 hover:text-primary"
+                  className="absolute inset-y-0 right-3 mr-10 mt-7.5 flex items-center text-gray-500 hover:text-primary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (

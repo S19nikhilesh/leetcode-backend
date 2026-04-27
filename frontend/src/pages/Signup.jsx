@@ -80,12 +80,12 @@ function Signup() {
                   {...register('password')} 
                   placeholder="********" 
                   type={showPassword ? "text" : "password"}
-                  className={`input input-bordered w-full pr-12 ${errors.password ? 'input-error' : ''}`}
+                  className={`input input-bordered  pr-12 ${errors.password ? 'input-error' : ''}`}
                 />
                 {/* Eye Icon Button */}
                 <button 
                   type="button" // Important: prevents form submission
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-primary"
+                  className="absolute inset-y-0 right-3 pr-4 flex items-center text-gray-500 hover:text-primary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
