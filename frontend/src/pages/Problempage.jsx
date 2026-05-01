@@ -51,21 +51,33 @@ function ProblemPage() {
     setIsExecuting(true);
     setActiveBottomTab('result');
     const userCode = editorRef.current.getValue();
-    
+
     try {
-      const res = await axiosClient.post(`/submission/run/${problemId}`, {
-        code: userCode,
-        language: selectedLanguage,
-      });
-      console.log(res.data.message);
-      setRunResult(res.data.results);
+        const res = await axiosClient.post(`/submission/run/${problemId}`, {
+            code: userCode,
+            language: selectedLanguage,
+        });
+        
+        console.log(res.data.message);
+        setRunResult(res.data.results);
+
     } catch (err) {
-      setRunResult({ error: "Execution failed. Check console." });
-      console.error(err);
+        // Check if the error is 429 (Too Many Requests)
+        if (err.response && err.response.status === 429) {
+            // Frontend par user ko warning dikhao
+            alert("Opps! You are submitting too fast. Please wait a minute.");
+            
+            // Result tab mein bhi error message set kar do
+            setRunResult({ error: "Rate limit exceeded. Try again in 1 minute." });
+        } else {
+            // Baaki saare errors ke liye general message
+            setRunResult({ error: "Execution failed. Check console." });
+            console.error(err);
+        }
     } finally {
-      setIsExecuting(false);
+        setIsExecuting(false);
     }
-  };
+};
 
   // API Call for Full Submission
   const handleSubmitCode = async () => {
