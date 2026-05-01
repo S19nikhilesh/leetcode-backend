@@ -36,8 +36,8 @@ const InitializeConnection=async () => {
                     console.log("Server Listening at PORT number:"+ process.env.PORT);
                 }
         )
-    }catch{
-    (err)=>console.log("Error Occured:"+err)
+    }catch(err){
+        console.error("Failed to start server:", err);
 }
 }
 

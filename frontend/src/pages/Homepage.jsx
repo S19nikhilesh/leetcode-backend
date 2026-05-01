@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../utils/axiosClient';
 import { logoutUser } from '../authSlice';
 import { CheckCircle, CircleHelp, LogOut, User as UserIcon } from 'lucide-react'; // Using icons for better UI
-
+ 
 function Homepage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -18,7 +18,7 @@ function Homepage() {
     difficulty: 'all',
     tag: 'all',
   });
-
+  console.log("/homepage pe aaya ")
   useEffect(() => {
     
    

@@ -91,7 +91,7 @@ const logout=async(req,res)=>{
         res.cookie("token",null,{expires:new Date(Date.now())}); // khali token bheja , aur abhi hi expire karde isko 
         res.send("Logged out Successfully");
     }catch(err){
-        res.status(503).send("Error:",err);
+        res.status(401).json({ message: err.message });
     }
 }
 

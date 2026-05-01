@@ -18,26 +18,35 @@ function Login() {
   const dispatch=useDispatch();
   const navigate=useNavigate();
   // Add 'error' here!
-  const { isAuthenticated, error } = useSelector((state) => state.auth);
+  const { isAuthenticated, error,user } = useSelector((state) => state.auth);
   
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(LoginSchema),
   });
 
-  
-  useEffect(()=>{
-    if(isAuthenticated){
-      navigate('/')
+  useEffect(() => {
+    
+    if (isAuthenticated && user?.role) {
+      console.log("Role Found:", user.role); // Debugging
+      
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }
-  },[isAuthenticated,navigate])
+  }, [isAuthenticated, user, navigate]);
 
   
-  const onSubmit=(data)=>{
-    dispatch(loginUser(data))
+  const onSubmit = async (data) => {
+    console.log("Form Data Sent:", data);
+    const result = await dispatch(loginUser(data));
+    console.log("Login Result:", result);
     
-  }
+  };
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-base-200">
+    <>
+    <div className="min-h-167 flex items-center justify-center p-4 bg-base-200">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title justify-center text-3xl">Axiom Code</h2>
@@ -45,7 +54,7 @@ function Login() {
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
           {error && (
             <div className="alert alert-error mb-4 py-2 text-sm justify-start gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-4 w-4" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-4 w-3" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <span>{error}</span>
             </div>
           )}
@@ -55,7 +64,7 @@ function Login() {
               </label>
               <input 
                 {...register('emailId')} 
-                placeholder="john@example.com" 
+                placeholder="admin@gmail.com" 
                 className={`input input-bordered ${errors.emailId ? 'input-error' : ''}`}
               />
               {errors.emailId && (
@@ -69,7 +78,7 @@ function Login() {
               </label>
               <input 
                   {...register('password')} 
-                  placeholder="********" 
+                  placeholder="Admin@123" 
                   type={showPassword ? "text" : "password"}
                   className={`input input-bordered pr-4 ${errors.password ? 'input-error' : ''}`}
               />
@@ -107,7 +116,15 @@ function Login() {
           </form>
         </div>
       </div>
+      
     </div>
+    <div className='items-center justify-center p-4 bg-base-200'>
+    <h1>ADMIN Credentials : admin@gmail.com , Admin@123</h1>
+    <span></span>
+    </div>
+    </>
+ 
+    
   );
 }
 

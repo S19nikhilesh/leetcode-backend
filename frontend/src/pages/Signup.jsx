@@ -12,17 +12,17 @@ const signupSchema = z.object({
   emailId: z.string().email(),
   password: z.string().min(8, "Password should contain at least 8 characters")
 });
-
+   
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated,loading } = useSelector((state) => state.auth);
+  const { isAuthenticated,loading} = useSelector((state) => state.auth);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(signupSchema),
   });
-  console.log("signup page tak aaya",isAuthenticated);
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/');

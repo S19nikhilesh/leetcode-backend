@@ -1,8 +1,17 @@
 import React from 'react';
-import { Plus, Edit, Trash2,Video,UserCog } from 'lucide-react';
+import { Plus, Edit, Trash2,LogOut,Video,UserCog } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../authSlice';
+
 
 function Admin() {
+  const dispatch = useDispatch();
+  
+  
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
   const adminOptions = [
     {
       id: 'create',
@@ -46,12 +55,27 @@ function Admin() {
   return (
     <div className="container mx-auto px-4 py-12 min-h-[calc(100vh-64px)]">
       {/* Header */}
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-base-content mb-4">Admin Panel</h1>
-        <p className="text-base-content/70 text-lg">
-          Manage coding problems on your platform
-        </p>
+      <div className="text-center mb-16 relative">
+      {/* Logout Button - Top Right Positioning (Optional but looks professional) */}
+      <div className="absolute right-0 top-0">
+        <button 
+          onClick={handleLogout} 
+          className="btn btn-ghost text-error gap-2 hover:bg-error/10 transition-colors"
+        >
+          <LogOut size={18}/> 
+          <span>Logout</span>
+        </button>
       </div>
+
+      {/* Main Header Content */}
+      <h1 className="text-4xl font-bold text-base-content mb-4 tracking-tight">
+        Admin Panel
+      </h1>
+      
+      <p className="text-base-content/70 text-lg max-w-2xl mx-auto">
+        Manage coding problems and monitor platform performance
+      </p>
+    </div>
 
       {/* Admin Options Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2  gap-8 max-w-6xl mx-auto">

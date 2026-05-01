@@ -36,12 +36,12 @@ function App() {
  //pehle directly siginup page pe redirect hora tha . 
   return (
     <>
-      <Routes>
-        <Route path="/" element={isAuthenticated?<Homepage></Homepage>:<Navigate to="/signup"/>}></Route>
-        <Route path="/login" element={isAuthenticated?<Navigate to="/"/> :<Login></Login>}></Route>
+      <Routes>  
+        <Route path="/login" element={isAuthenticated ?<Navigate to="/"/> :<Login></Login>}></Route>
         <Route path="/signup" element={isAuthenticated?<Navigate to="/"/> :<Signup></Signup>}></Route>
-
-        <Route path="/admin" element={isAuthenticated && user.role==='admin'?<Admin></Admin>:<Navigate to="/"/>}></Route>
+        <Route path="/" element={isAuthenticated ? (user?.role === 'admin' ? <Navigate to="/admin" /> : <Homepage />) : <Navigate to="/login" />} />
+        
+        <Route path="/admin" element={isAuthenticated && user.role==='admin' ?<Admin></Admin>:<Navigate to="/signup"/>}></Route>
         <Route path="/admin/register" element={isAuthenticated && user.role==='admin'?<AdminRegister></AdminRegister>:<Navigate to="/"/>}></Route>
         <Route path="/admin/create" element={isAuthenticated && user.role==='admin'?<CreateProblem/>:<Navigate to="/"/>}></Route>
         <Route path="/admin/delete" element={isAuthenticated && user.role==='admin'?<DeleteProblem/>:<Navigate to="/"/>}></Route>
