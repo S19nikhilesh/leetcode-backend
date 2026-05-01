@@ -16,6 +16,8 @@ app.use(cors({
  origin:'http://localhost:5173',// '*' anyone can access
  credentials:true
 }))
+app.set('trust proxy', true); //taaki har baar proxy ka Ip nhi bheje rate limiter ko
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/video",videoRouter);

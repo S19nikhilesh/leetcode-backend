@@ -35,3 +35,5 @@ const rateLimiter=async (req,res,next) => {
         next();
     }
 }
+
+module.exports=rateLimiter
